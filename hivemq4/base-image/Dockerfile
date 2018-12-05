@@ -26,7 +26,8 @@ COPY logback.xml /opt/logback.xml
 COPY hivemq-${HIVEMQ_VERSION}.zip /opt/hivemq-${HIVEMQ_VERSION}.zip
 
 # HiveMQ setup
-RUN unzip /opt/hivemq-${HIVEMQ_VERSION}.zip  -d /opt/\
+RUN curl https://hivemq.com/releases-all/hivemq-${HIVEMQ_VERSION}.zip -o /opt/hivemq-${HIVEMQ_VERSION}.zip \
+    && unzip /opt/hivemq-${HIVEMQ_VERSION}.zip  -d /opt/\
     && rm -f /opt/hivemq-${HIVEMQ_VERSION}.zip \
     && ln -s /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq \
     && mv /opt/config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
