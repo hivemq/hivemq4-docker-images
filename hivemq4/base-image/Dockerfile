@@ -1,6 +1,6 @@
 FROM openjdk:11-jre-slim
 
-ARG HIVEMQ_VERSION=4.0.0-SNAPSHOT
+ARG HIVEMQ_VERSION=4.0.0
 ARG HIVEMQ_GID=10000
 ARG HIVEMQ_UID=10000
 
@@ -23,7 +23,6 @@ RUN set -x \
 
 COPY config.xml /opt/config.xml
 COPY logback.xml /opt/logback.xml
-COPY hivemq-${HIVEMQ_VERSION}.zip /opt/hivemq-${HIVEMQ_VERSION}.zip
 
 # HiveMQ setup
 RUN curl https://hivemq.com/releases-all/hivemq-${HIVEMQ_VERSION}.zip -o /opt/hivemq-${HIVEMQ_VERSION}.zip \
