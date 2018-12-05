@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>HiveMQ Prometheus Plugin</title>
+<title>HiveMQ 4 Prometheus monitoring plugin</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -436,11 +436,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_hivemq_prometheus_plugin">HiveMQ Prometheus Plugin</a>
+<li><a href="#_hivemq_4_prometheus_monitoring_plugin">HiveMQ 4 Prometheus monitoring plugin</a>
 <ul class="sectlevel2">
-<li><a href="#_first_steps">First steps</a></li>
-<li><a href="#_configuration_of_the_prometheus_plugin">Configuration of the Prometheus Plugin</a></li>
-<li><a href="#_configuration_of_prometheus">Configuration of Prometheus</a></li>
+<li><a href="#_type_monitoring">Type: Monitoring</a></li>
+<li><a href="#_version_1_0_0">Version: 1.0.0</a></li>
+<li><a href="#_license">License</a></li>
+<li><a href="#_purpose">Purpose</a></li>
+<li><a href="#_configuration">Configuration</a></li>
+<li><a href="#_installation">Installation</a></li>
+<li><a href="#_final_steps_configuration_of_prometheus">Final Steps - Configuration of Prometheus</a></li>
 </ul>
 </li>
 </ul>
@@ -448,65 +452,30 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_hivemq_prometheus_plugin">HiveMQ Prometheus Plugin</h2>
+<h2 id="_hivemq_4_prometheus_monitoring_plugin">HiveMQ 4 Prometheus monitoring plugin</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_type_monitoring">Type: Monitoring</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_version_1_0_0">Version: 1.0.0</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_license">License</h3>
+<div class="paragraph">
+<p>The plugin comes with a Apache License see file://[LICENSE.txt]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_purpose">Purpose</h3>
 <div class="paragraph">
 <p>The Prometheus Monitoring plugin allows HiveMQ to expose metrics to a Prometheus application.</p>
 </div>
-<div class="sect2">
-<h3 id="_first_steps">First steps</h3>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Extract the zip file of the Prometheus monitoring plugin
-The zip file contains a folder named <code>hivemq4-prometheus-monitoring-plugin</code>.</p>
-</li>
-<li>
-<p>A configuration file <code>prometheusConfiguration.properties</code> can be found in the hivemq4-prometheus-monitoring-plugin folder
-The properties are preconfigured with standard settings and can be adapted to your needs (The meaning of the fields is explained below).</p>
-</li>
-<li>
-<p>Move the complete folder <code>hivemq4-prometheus-monitoring-plugin</code> into the <code>[HIVEMQ-HOME]/plugins</code> folder of HiveMQ</p>
-</li>
-<li>
-<p>Start HiveMQ.</p>
-</li>
-</ol>
-</div>
-<div class="sect3">
-<h4 id="_test">Test</h4>
-<div class="paragraph">
-<p>You can test your configuration by navigating to <code>&lt;ip&gt;:&lt;port&gt;&lt;metric_path&gt;</code> (as configured in <code>prometheusConfiguration.properties</code>) in your browser.
-For example the address would be <a href="http://localhost:9399/metrics" class="bare">http://localhost:9399/metrics</a> with default values.</p>
-</div>
-<div class="paragraph">
-<p>You should see data provided by the plugin:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>#HELP com_hivemq_RESTService_percent_4xx_15m Generated from Dropwizard metric import (metric=com.hivemq.RESTService.percent-4xx-15m, type=com.codahale.metrics.jetty9.InstrumentedHandler$3)
-# TYPE com_hivemq_RESTService_percent_4xx_15m gauge
-com_hivemq_RESTService_percent_4xx_15m 1.0
-...</pre>
-</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="6">
-<li>
-<p>Load and install Prometheus</p>
-</li>
-<li>
-<p>Configure Prometheus to scrape from &lt;ip&gt;:&lt;port&gt;/servlet&lt;metricPath&gt; as configured in the prometheusConfiguration.properties.</p>
-</li>
-<li>
-<p>Look at the website provided by your Prometheus application. You should be able to find the HiveMQ metrics.</p>
-</li>
-</ol>
-</div>
-</div>
 </div>
 <div class="sect2">
-<h3 id="_configuration_of_the_prometheus_plugin">Configuration of the Prometheus Plugin</h3>
+<h3 id="_configuration">Configuration</h3>
 <div class="paragraph">
 <p>The plugin can be configured with the prometheusConfiguration.properties file, which is part of the <code>hivemq4-prometheus-monitoring-plugin</code> folder</p>
 </div>
@@ -544,7 +513,59 @@ com_hivemq_RESTService_percent_4xx_15m 1.0
 </table>
 </div>
 <div class="sect2">
-<h3 id="_configuration_of_prometheus">Configuration of Prometheus</h3>
+<h3 id="_installation">Installation</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Extract the zip file of the Prometheus monitoring plugin.
+The zip file contains a folder named <code>hivemq4-prometheus-monitoring-plugin</code>.</p>
+</li>
+<li>
+<p>A configuration file <code>prometheusConfiguration.properties</code> can be found in the hivemq4-prometheus-monitoring-plugin folder
+The properties are preconfigured with standard settings and can be adapted to your needs (The meaning of the fields is explained below).</p>
+</li>
+<li>
+<p>Move the complete folder <code>hivemq4-prometheus-monitoring-plugin</code> into the <code>[HIVEMQ-HOME]/plugins</code> folder of HiveMQ</p>
+</li>
+<li>
+<p>Start HiveMQ.</p>
+</li>
+</ol>
+</div>
+<div class="sect3">
+<h4 id="_test">Test</h4>
+<div class="paragraph">
+<p>You can test your configuration by navigating to <code>&lt;ip&gt;:&lt;port&gt;&lt;metric_path&gt;</code> (as configured in <code>prometheusConfiguration.properties</code>) in your browser.
+For example the address would be <a href="http://localhost:9399/metrics" class="bare">http://localhost:9399/metrics</a> with default values.</p>
+</div>
+<div class="paragraph">
+<p>You should see data provided by the plugin:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># HELP com_hivemq_messages_incoming_publish_rate_total Generated from Dropwizard metric import (metric=com.hivemq.messages.incoming.publish.rate, type=com.codahale.metrics.Meter)
+# TYPE com_hivemq_messages_incoming_publish_rate_total counter
+com_hivemq_messages_incoming_publish_rate_total 0.0
+...</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="6">
+<li>
+<p>Load and install Prometheus</p>
+</li>
+<li>
+<p>Configure Prometheus to scrape from &lt;ip&gt;:&lt;port&gt;/servlet&lt;metricPath&gt; as configured in the prometheusConfiguration.properties.</p>
+</li>
+<li>
+<p>Look at the website provided by your Prometheus application. You should be able to find the HiveMQ metrics.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_final_steps_configuration_of_prometheus">Final Steps - Configuration of Prometheus</h3>
 <div class="paragraph">
 <p>For detailed information please visit:  <a href="https://prometheus.io/docs/operating/configuration/" class="bare">https://prometheus.io/docs/operating/configuration/</a></p>
 </div>
@@ -570,7 +591,7 @@ scrape_configs:
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-12-04 09:52:39 MEZ
+Last updated 2018-12-05 16:58:53 MEZ
 </div>
 </div>
 </body>

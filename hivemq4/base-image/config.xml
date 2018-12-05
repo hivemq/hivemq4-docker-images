@@ -8,12 +8,12 @@
             <bind-address>0.0.0.0</bind-address>
         </tcp-listener>
     </listeners>
-    <web-ui>
+    <control-center>
         <listeners>
             <http>
                 <port>8080</port>
                 <bind-address>0.0.0.0</bind-address>
             </http>
         </listeners>
-    </web-ui>
+    </control-center>
 </hivemq>

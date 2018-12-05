@@ -1,9 +1,21 @@
-= HiveMQ DNS discovery plugin
+== HiveMQ 4 DNS Cluster discovery plugin
+=== Type: Integration
 
+=== Version: 1.0.0
+
+=== License
+The plugin comes with a Apache License see file://[LICENSE.txt]
+
+=== Purpose
 This plugin can be used with any cloud environment / container
 orchestration environment that supports service discovery using a
 https://en.wikipedia.org/wiki/Round-robin_DNS[round-robin] A record.
 
+=== Installation
+The plugin must be unzipped and the complete plugin folder must be placed into the plugins folder.
+After this adapt the properties to your needs as described in the Configuration chapter.
+
+=== Configuration
 The following environment variables or property keys should be used to
 customize the discovery parameters.
 
@@ -27,7 +39,7 @@ for DNS resolution to complete
 |=======================================================================
 
 [[sample-dns-record]]
-== Sample DNS record
+==== Sample DNS record
 
 The following list shows a sample round-robin A-record as expected and parsed by the
 plugin:
@@ -54,8 +66,8 @@ tasks.hivemq.       600 IN  A   10.0.0.3
 
 This record represents a 5 node cluster on an overlay network.
 
-[[how-it-works]]
-== How it works
+[[final-steps]]
+=== Final Steps
 
 This diagram shows how DNS discovery is generally implemented on container engines.
 
@@ -70,7 +82,7 @@ This DNS server is the main endpoint the DNS discovery plugin will communicate w
 The record contains the list of containers/pods in the cluster, which HiveMQ will then use to discover the other nodes.
 
 [[usage]]
-== Usage
+=== Usage
 
 Most container orchestration environments support this type of discovery. See the following list for some examples:
 
@@ -86,7 +98,7 @@ To implement your own solution for this discovery method, you must either provid
 * a custom DNS record on your cloud provider's DNS service containing the addresses of your HiveMQ instances.
 * an alternative DNS server included with the deployment, serving general DNS to the HiveMQ instances as well as providing a service discovery record.
 
-=== Kubernetes
+==== Kubernetes
 
 To use DNS discovery on Kubernetes, you will generally need a headless service pointing to the HiveMQ deployment, similar to the following configuration:
 
@@ -111,6 +123,6 @@ NOTE: The selector and name for the service are important. The selector defines 
 
 NOTE: The name will define the `service-name` of the resulting DNS record, which will be generally in the form of `<service-name>.<kubernetes-namespace>.svc.<dns-domain>`.
 
-=== Docker Swarm
+==== Docker Swarm
 
 Docker swarm provides a DNS entry for service discovery by default. All you have to do is create a service, as shown in https://github.com/hivemq/hivemq-docker-images#docker-swarm[DNS discovery image README].

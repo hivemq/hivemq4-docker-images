@@ -8,7 +8,7 @@
             <bind-address>0.0.0.0</bind-address>
         </tcp-listener>
     </listeners>
-    <web-ui>
+    <control-center>
         <listeners>
             <http>
                 <port>8080</port>
@@ -17,11 +17,11 @@
         </listeners>
         <users>
             <user>
-                <name>${HIVEMQ_WEB_UI_USER}</name>
-                <password>${HIVEMQ_WEB_UI_PASSWORD}</password>
+                <name>${HIVEMQ_CONTROL_CENTER_USER}</name>
+                <password>${HIVEMQ_CONTROL_CENTER_PASSWORD}</password>
             </user>
         </users>
-    </web-ui>
+    </control-center>
 
     <cluster>
         <transport>

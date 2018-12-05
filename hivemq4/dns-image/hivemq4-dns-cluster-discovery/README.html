@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>HiveMQ DNS discovery plugin</title>
+<title>HiveMQ 4 DNS Cluster discovery plugin</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -433,29 +433,59 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="xhtml toc2 toc-left">
 <div id="header">
-<h1>HiveMQ DNS discovery plugin</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#sample-dns-record">Sample DNS record</a></li>
-<li><a href="#how-it-works">How it works</a></li>
-<li><a href="#usage">Usage</a>
+<li><a href="#_hivemq_4_dns_cluster_discovery_plugin">HiveMQ 4 DNS Cluster discovery plugin</a>
 <ul class="sectlevel2">
-<li><a href="#_kubernetes">Kubernetes</a></li>
-<li><a href="#_docker_swarm">Docker Swarm</a></li>
+<li><a href="#_type_integration">Type: Integration</a></li>
+<li><a href="#_version_1_0_0">Version: 1.0.0</a></li>
+<li><a href="#_license">License</a></li>
+<li><a href="#_purpose">Purpose</a></li>
+<li><a href="#_installation">Installation</a></li>
+<li><a href="#_configuration">Configuration</a></li>
+<li><a href="#final-steps">Final Steps</a></li>
+<li><a href="#usage">Usage</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 <div id="content">
-<div id="preamble">
+<div class="sect1">
+<h2 id="_hivemq_4_dns_cluster_discovery_plugin">HiveMQ 4 DNS Cluster discovery plugin</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_type_integration">Type: Integration</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_version_1_0_0">Version: 1.0.0</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_license">License</h3>
+<div class="paragraph">
+<p>The plugin comes with a Apache License see file://[LICENSE.txt]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_purpose">Purpose</h3>
 <div class="paragraph">
 <p>This plugin can be used with any cloud environment / container
 orchestration environment that supports service discovery using a
 <a href="https://en.wikipedia.org/wiki/Round-robin_DNS">round-robin</a> A record.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_installation">Installation</h3>
+<div class="paragraph">
+<p>The plugin must be unzipped and the complete plugin folder must be placed into the plugins folder.
+After this adapt the properties to your needs as described in the Configuration chapter.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuration">Configuration</h3>
 <div class="paragraph">
 <p>The following environment variables or property keys should be used to
 customize the discovery parameters.</p>
@@ -504,11 +534,8 @@ for DNS resolution to complete</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="sample-dns-record">Sample DNS record</h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="sample-dns-record">Sample DNS record</h4>
 <div class="paragraph">
 <p>The following list shows a sample round-robin A-record as expected and parsed by the
 plugin:</p>
@@ -539,9 +566,8 @@ tasks.hivemq.       600 IN  A   10.0.0.3</pre>
 </div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="how-it-works">How it works</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="final-steps">Final Steps</h3>
 <div class="paragraph">
 <p>This diagram shows how DNS discovery is generally implemented on container engines.</p>
 </div>
@@ -562,10 +588,8 @@ When using it in conjunction with DNSaaS solutions for example, the DNS entries 
 The record contains the list of containers/pods in the cluster, which HiveMQ will then use to discover the other nodes.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="usage">Usage</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="usage">Usage</h3>
 <div class="paragraph">
 <p>Most container orchestration environments support this type of discovery. See the following list for some examples:</p>
 </div>
@@ -601,8 +625,8 @@ The record contains the list of containers/pods in the cluster, which HiveMQ wil
 </li>
 </ul>
 </div>
-<div class="sect2">
-<h3 id="_kubernetes">Kubernetes</h3>
+<div class="sect3">
+<h4 id="_kubernetes">Kubernetes</h4>
 <div class="paragraph">
 <p>To use DNS discovery on Kubernetes, you will generally need a headless service pointing to the HiveMQ deployment, similar to the following configuration:</p>
 </div>
@@ -649,8 +673,8 @@ The name will define the <code>service-name</code> of the resulting DNS record, 
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_docker_swarm">Docker Swarm</h3>
+<div class="sect3">
+<h4 id="_docker_swarm">Docker Swarm</h4>
 <div class="paragraph">
 <p>Docker swarm provides a DNS entry for service discovery by default. All you have to do is create a service, as shown in <a href="https://github.com/hivemq/hivemq-docker-images#docker-swarm">DNS discovery image README</a>.</p>
 </div>
@@ -658,9 +682,10 @@ The name will define the <code>service-name</code> of the resulting DNS record, 
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-12-03 10:00:38 MEZ
+Last updated 2018-12-05 16:59:59 MEZ
 </div>
 </div>
 </body>

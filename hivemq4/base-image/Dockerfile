@@ -49,7 +49,8 @@ VOLUME /opt/hivemq/log
 
 #mqtt-clients
 EXPOSE 1883
-#web-ui
+
+#HiveMQ Control Center
 EXPOSE 8080
 
 WORKDIR /opt/hivemq

@@ -8,9 +8,9 @@
                 * [Docker Swarm](#docker-swarm)
                     * [Managing The Cluser](#managing-the-cluster)
                 * [Kubernetes](#kubernetes)
-                    * [Accessing the Web UI](#accessing-the-web-ui)
+                    * [Accessing the HiveMQ Control Center](#accessing-the-hivemq-control-center)
                     * [Accessing the MQTT port using external clients](#accessing-the-mqtt-port-using-external-clients)
-                    * [Setting the Web UI username and password](#setting-the-web-ui-username-and-password)
+                    * [Setting the HiveMQ Control Center username and password](#setting-the-hivemq-control-center-username-and-password)
                     * [Adding a license](#adding-a-license)
                     * [Overriding the bind address](#overriding-the-bind-address)
         * [HiveMQ base image](#hivemq-base-image)
@@ -36,8 +36,8 @@ The following environment variables should be used to customize the discovery an
 | HIVEMQ_CLUSTER_PORT | 8000 | Port used for cluster transport |
 | HIVEMQ_LICENSE | - | base64 encoded license file to use for the broker |
 | HIVEMQ_BIND_ADDRESS | - | Set the *cluster transport* bind address, only necessary if the default policy (resolve hostname) fails |
-| HIVEMQ_WEB_UI_USER | admin | Set the username for the Web UI login |
-| HIVEMQ_WEB_UI_PASSWORD | SHA256 of `adminhivemq` (default) | Set the password hash for Web UI authentication |
+| HIVEMQ_CONTROL_CENTER_USER | admin | Set the username for the HiveMQ Control Center login |
+| HIVEMQ_CONTROL_CENTER_PASSWORD | SHA256 of `adminhivemq` (default) | Set the password hash for HiveMQ Control Center authentication |
 
 ## Building
 
@@ -78,11 +78,11 @@ docker service create \
     hivemq/hivemq3:dns-latest
 ```
 
-This will provide a 3 node cluster with the MQTT(1883) and Web UI(8080) ports forwarded to the host network.
+This will provide a 3 node cluster with the MQTT(1883) and HiveMQ Control Center(8080) ports forwarded to the host network.
 
 This means you can connect MQTT clients on port 1883. The connection will be forwarded to any of the cluster nodes.
 
-The HiveMQ Web UI can be used in a single node cluster. A sticky session for the HTTP requests in clusters with multiple nodes cannot be upheld with this configuration, as the internal load balancer forwards requests in an alternating fashion.
+The HiveMQ HiveMQ Control Center can be used in a single node cluster. A sticky session for the HTTP requests in clusters with multiple nodes cannot be upheld with this configuration, as the internal load balancer forwards requests in an alternating fashion.
 To use sticky sessions the Docker Swarm Enterprise version is required.
 
 
@@ -150,7 +150,7 @@ spec:
         ports:
         - containerPort: 8080
           protocol: TCP
-          name: web-ui
+          name: hivemq-control-center
         - containerPort: 1883
           protocol: TCP
           name: mqtt
@@ -190,17 +190,17 @@ spec:
   clusterIP: None
 ```
 
-#### Accessing the Web UI
+#### Accessing the HiveMQ Control Center
 
-To access the HiveMQ Web UI for a cluster running on Kubernetes, follow these steps:
+To access the HiveMQ HiveMQ Control Center for a cluster running on Kubernetes, follow these steps:
 
-* Create a service exposing the Web UI of the HiveMQ service. Use the following YAML definition:
+* Create a service exposing the HiveMQ Control Center of the HiveMQ service. Use the following YAML definition:
 
 ```
 kind: Service
 apiVersion: v1
 metadata:
-  name: hivemq-web-ui
+  name: hivemq-hivemq-control-center
 spec:
   selector:
     app: hivemq-cluster1
@@ -214,7 +214,7 @@ spec:
 
 * Create the service using `kubectl create -f web.yaml`
 
-*Note that depending on your provider of Kubernetes environment, load balancers might not be available or additional configuration may be necessary to access the Web UI.*
+*Note that depending on your provider of Kubernetes environment, load balancers might not be available or additional configuration may be necessary to access the HiveMQ Control Center.*
 
 #### Accessing the MQTT port using external clients
 
@@ -242,10 +242,10 @@ spec:
 Note that the `externalTrafficPolicy` annotation is necessary to allow the Kubernetes service to maintain a larger amount of concurrent connections.  
 See [Source IP for Services](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) for more information.
 
-## Setting the Web UI username and password
+## Setting the HiveMQ Control Center username and password
 
-The environment variable `HIVEMQ_WEB_UI_PASSWORD` allows you to set the password of the Web UI by defining a SHA256 hash for a custom password.
-Additionally, you can also configure the username, using the environment variable `HIVEMQ_WEB_UI_USER`
+The environment variable `HIVEMQ_CONTROL_CENTER_PASSWORD` allows you to set the password of the HiveMQ Control Center by defining a SHA256 hash for a custom password.
+Additionally, you can also configure the username, using the environment variable `HIVEMQ_CONTROL_CENTER_USER`
 
 See [Generate a SHA256 Password](https://www.hivemq.com/docs/hivemq/latest/#hivemqdocs_generate_sha256_password) to read more about how to generate the password hash.
 
