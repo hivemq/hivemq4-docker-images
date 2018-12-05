@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<hivemq xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="hivemq-config.xsd">
+
+    <listeners>
+        <tcp-listener>
+            <port>1883</port>
+            <bind-address>0.0.0.0</bind-address>
+        </tcp-listener>
+    </listeners>
+    <web-ui>
+        <listeners>
+            <http>
+                <port>8080</port>
+                <bind-address>0.0.0.0</bind-address>
+            </http>
+        </listeners>
+        <users>
+            <user>
+                <name>${HIVEMQ_WEB_UI_USER}</name>
+                <password>${HIVEMQ_WEB_UI_PASSWORD}</password>
+            </user>
+        </users>
+    </web-ui>
+
+    <cluster>
+        <transport>
+            <udp>
+                <bind-address>${HIVEMQ_BIND_ADDRESS}</bind-address>
+                <bind-port>${HIVEMQ_CLUSTER_PORT}</bind-port>
+                <!-- disable multicast to avoid accidental cluster forming -->
+                <multicast-enabled>false</multicast-enabled>
+            </udp>
+        </transport>
+        <enabled>true</enabled>
+        <discovery>
+            <plugin>
+                <reload-interval>${HIVEMQ_DNS_DISCOVERY_INTERVAL}</reload-interval>
+            </plugin>
+        </discovery>
+    </cluster>
+</hivemq>
