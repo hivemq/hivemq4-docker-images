@@ -19,4 +19,4 @@ By default, this image will check for root privileges at startup and if present 
 
 This will enhance the safety of the container.
 
-If you wish to skip this step, e.g. if this leads to permission errors due to volume configuration, set the environment variable `HIVEMQ_NO_ROOT_STEP_DOWN` to `false` to disable this step.
+If you wish to skip this step, set the environment variable `HIVEMQ_NO_ROOT_STEP_DOWN` to `false` to disable this step.
