@@ -1,7 +1,7 @@
 
 # Table of Contents
    
-   * [HiveMQ Docker Images](#hivemq-docker-images)
+   * [HiveMQ Docker Images](#hivemq4-docker-images)
         * [DNS discovery image](#dns-discovery-image)
             * [Building](#building)
             * [Usage](#usage)
@@ -18,7 +18,7 @@
    
 # HiveMQ Docker images
 
-This repository provides the `Dockerfile` and context for the images hosted in the [HiveMQ Docker Hub repository](https://hub.docker.com/r/hivemq/hivemq3/).
+This repository provides the `Dockerfile` and context for the images hosted in the [HiveMQ Docker Hub repository](https://hub.docker.com/r/hivemq/hivemq4/).
 
 # DNS Discovery Image
 The HiveMQ DNS discovery image comes with a DNS discovery plugin.
@@ -41,9 +41,9 @@ The following environment variables should be used to customize the discovery an
 
 ## Building
 
-To build the image, you must first obtain the [HiveMQ DNS discovery](https://github.com/hivemq/hivemq-dns-cluster-discovery-plugin) plugin and copy the jar file to the `hivemq3/dns-image` folder.
+To build the image, you must first obtain the [HiveMQ DNS discovery](https://github.com/hivemq/hivemq-dns-cluster-discovery-plugin) plugin and copy the jar file to the `hivemq4/dns-image` folder.
 
-The image can then be built by running `docker build -t hivemq-dns .` in the `hivemq3/dns-image` folder.
+The image can then be built by running `docker build -t hivemq-dns .` in the `hivemq4/dns-image` folder.
 
 ## Usage
 
@@ -75,7 +75,7 @@ docker service create \
   --publish target=8080,published=8080 \
   -p 8000:8000/udp \
   --name hivemq \
-    hivemq/hivemq3:dns-latest
+    hivemq/hivemq4:dns-latest
 ```
 
 This will provide a 3 node cluster with the MQTT(1883) and HiveMQ Control Center(8080) ports forwarded to the host network.
@@ -146,7 +146,7 @@ spec:
     spec:
       containers:
       - name: hivemq-pods
-        image: hivemq/hivemq3:dns-latest
+        image: hivemq/hivemq4:dns-latest
         ports:
         - containerPort: 8080
           protocol: TCP
@@ -265,13 +265,13 @@ This behavior can be overridden by setting any value for the environment variabl
 
 # HiveMQ base image
 
-The [HiveMQ base image](hivemq3/base-image) installs and optimizes the HiveMQ installation for execution as a container.
+The [HiveMQ base image](hivemq4/base-image) installs and optimizes the HiveMQ installation for execution as a container.
 
 It is meant to be used to build custom images or to run a dockerized HiveMQ locally for testing purposes.
 
 # Tags
 
-The repository on the [HiveMQ Docker Hub repository](https://hub.docker.com/r/hivemq/hivemq3/) provides different versions of the HiveMQ image using tags:
+The repository on the [HiveMQ Docker Hub repository](https://hub.docker.com/r/hivemq/hivemq4/) provides different versions of the HiveMQ image using tags:
 
 | Tag | Meaning |
 | :--- | :---  |
