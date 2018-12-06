@@ -2,8 +2,6 @@
 
 set -eo pipefail
 
-set -o xtrace
-
 # Step down from root privilege, only when we're attempting to run HiveMQ though.
 if [[ "$1" = "/opt/hivemq/bin/run.sh" && "$(id -u)" = '0' && "${HIVEMQ_NO_ROOT_STEP_DOWN}" != "true" ]]; then
     uid="hivemq"
@@ -24,6 +22,10 @@ if [[ "$(id -u)" = "0" ]]; then
     chown "${uid}":"${gid}" /opt/hivemq
     chown "${uid}":"${gid}" /opt/hivemq-*
     chown "${uid}":"${gid}" /opt/hivemq/data
+    chown "${uid}":"${gid}" /opt/hivemq/log
+    chown "${uid}":"${gid}" /opt/hivemq/conf
+    chown "${uid}":"${gid}" /opt/hivemq/license
+    # Recursive for bin, no volume here
     chown -R "${uid}":"${gid}" /opt/hivemq/bin
     chmod 700 /opt/hivemq*
     chmod 700 /opt/hivemq-*

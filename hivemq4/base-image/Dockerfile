@@ -18,7 +18,7 @@ ENV LANG=en_US.UTF-8
 
 # tini and gosu setup
 RUN set -x \
-        && apt-get update && apt-get install -y --no-install-recommends procps vim curl gpg-agent gpg dirmngr \
+        && apt-get update && apt-get install -y --no-install-recommends curl gpg-agent gpg dirmngr \
         && curl -fSL "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini" -o /usr/local/bin/tini \
         && curl -fSL "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini.asc" -o /usr/local/bin/tini.asc \
         && curl -fSL "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" -o /usr/local/bin/gosu \
