@@ -91,7 +91,7 @@ Most container orchestration environments support this type of discovery. See th
 * https://mesosphere.github.io/mesos-dns/[Mesos]
 * https://docs.openshift.com/container-platform/3.6/architecture/core_concepts/pods_and_services.html#headless-services[Openshift]
 
-More information on using the discovery mechanisms listed above can be found in the https://github.com/hivemq/hivemq-docker-images#dns-discovery-image[DNS discovery image README]
+More information on using the discovery mechanisms listed above can be found in the https://github.com/hivemq/hivemq4-docker-images#dns-discovery-image[DNS discovery image README]
 
 To implement your own solution for this discovery method, you must either provide your HiveMQ deployment with
 
@@ -125,4 +125,4 @@ NOTE: The name will define the `service-name` of the resulting DNS record, which
 
 ==== Docker Swarm
 
-Docker swarm provides a DNS entry for service discovery by default. All you have to do is create a service, as shown in https://github.com/hivemq/hivemq-docker-images#docker-swarm[DNS discovery image README].
+Docker swarm provides a DNS entry for service discovery by default. All you have to do is create a service, as shown in https://github.com/hivemq/hivemq4-docker-images#docker-swarm[DNS discovery image README].
