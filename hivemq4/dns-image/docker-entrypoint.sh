@@ -20,6 +20,13 @@ fi
 echo "set bind address from container hostname to ${ADDR}"
 export HIVEMQ_BIND_ADDRESS=${ADDR}
 
-# run the command provided by overridden Dockerfile or command parameter on docker run
-HIVEMQ_BIND_ADDRESS=${ADDR} exec "$@"
+# Step down from root privilege, only when we're attempting to run HiveMQ though.
+if [[ "$1" = '/opt/hivemq/bin/run.sh' && "$(id -u)" = '0' && "${HIVEMQ_NO_ROOT_STEP_DOWN}" != "true" ]]; then
+    # Restrict HiveMQ folder permissions
+    chown -R hivemq:hivemq /opt/hivemq*
+    chmod -R 750 /opt/hivemq*
+    HIVEMQ_BIND_ADDRESS=${ADDR} exec gosu hivemq "$BASH_SOURCE" "$@"
+fi
 
+# Default if we're not running HiveMQ
+HIVEMQ_BIND_ADDRESS=${ADDR} exec "$@"

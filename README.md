@@ -6,7 +6,7 @@
             * [Building](#building)
             * [Usage](#usage)
                 * [Docker Swarm](#docker-swarm)
-                    * [Managing The Cluser](#managing-the-cluster)
+                    * [Managing The Cluster](#managing-the-cluster)
                 * [Kubernetes](#kubernetes)
                     * [Accessing the HiveMQ Control Center](#accessing-the-hivemq-control-center)
                     * [Accessing the MQTT port using external clients](#accessing-the-mqtt-port-using-external-clients)
@@ -38,10 +38,11 @@ The following environment variables should be used to customize the discovery an
 | HIVEMQ_BIND_ADDRESS | - | Set the *cluster transport* bind address, only necessary if the default policy (resolve hostname) fails |
 | HIVEMQ_CONTROL_CENTER_USER | admin | Set the username for the HiveMQ Control Center login |
 | HIVEMQ_CONTROL_CENTER_PASSWORD | SHA256 of `adminhivemq` (default) | Set the password hash for HiveMQ Control Center authentication |
+| HIVEMQ_HIVEMQ_NO_ROOT_STEP_DOWN | - | Disable root privilege step-down at startup by setting this to `true`. See [HiveMQ base image](hivemq4/base-image) for more information. |
 
 ## Building
 
-To build the image, you must first obtain the [HiveMQ DNS discovery](https://github.com/hivemq/hivemq-dns-cluster-discovery-plugin) plugin and copy the jar file to the `hivemq4/dns-image` folder.
+To build the image, you must first obtain the [HiveMQ DNS discovery](https://github.com/hivemq/hivemq4-dns-cluster-discovery-plugin) plugin and copy the jar file to the `hivemq4/dns-image` folder.
 
 The image can then be built by running `docker build -t hivemq-dns .` in the `hivemq4/dns-image` folder.
 
