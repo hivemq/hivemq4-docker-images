@@ -278,5 +278,5 @@ The repository on the [HiveMQ Docker Hub repository](https://hub.docker.com/r/hi
 | :--- | :---  |
 | latest | This tag will always point to the latest version of the [base image](#base-image) |
 | dns-latest | This tag will always point to the latest version of the [DNS discovery image](#dns-discovery-image) | 
-| `<version>` | Base image providing the given version of the broker (e.g. `3.4.1`) |
+| `<version>` | Base image providing the given version of the broker (e.g. `4.0.0`) |
 | dns-`<version>` | DNS discovery image based on the given version base image
