@@ -12,3 +12,11 @@ You can connect to the broker (1883) or the WebUI (8080) via the respective port
 ## Run a cluster locally
 
 For running HiveMQ with Docker in a cluster please refer to the [HiveMQ DNS discovery image](../../README.md).
+
+## Disabling privilege step-down
+
+By default, this image will check for root privileges at startup and, if present, switch to a less privileged user before running the HiveMQ broker.
+
+This will enhance the security of the container.
+
+If you wish to skip this step, set the environment variable `HIVEMQ_NO_ROOT_STEP_DOWN` to `false` to disable this step.
