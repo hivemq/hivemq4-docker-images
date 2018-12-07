@@ -50,7 +50,6 @@
         <appender-ref ref="EVENT-FILE"/>
     </logger>
 
-    <!-- OPENSHIFT - LOG - CONSOLE  -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
     </root>
