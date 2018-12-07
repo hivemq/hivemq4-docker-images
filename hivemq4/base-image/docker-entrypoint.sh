@@ -27,7 +27,7 @@ if [[ "$(id -u)" = "0" ]]; then
     chown "${uid}":"${gid}" /opt/hivemq/license
     # Recursive for bin, no volume here
     chown -R "${uid}":"${gid}" /opt/hivemq/bin
-    chmod 700 /opt/hivemq*
+    chmod 700 /opt/hivemq
     chmod 700 /opt/hivemq-*
     chmod -R 700 /opt/hivemq/bin
 fi
