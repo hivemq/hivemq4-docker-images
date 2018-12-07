@@ -24,6 +24,7 @@ if [[ "$(id -u)" = "0" ]]; then
     chown "${uid}":"${gid}" /opt/hivemq/data
     chown "${uid}":"${gid}" /opt/hivemq/log
     chown "${uid}":"${gid}" /opt/hivemq/conf
+    chown "${uid}":"${gid}" /opt/hivemq/conf/config.xml
     chown "${uid}":"${gid}" /opt/hivemq/license
     # Recursive for bin, no volume here
     chown -R "${uid}":"${gid}" /opt/hivemq/bin
