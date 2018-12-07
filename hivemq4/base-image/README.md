@@ -15,8 +15,8 @@ For running HiveMQ with Docker in a cluster please refer to the [HiveMQ DNS disc
 
 ## Disabling privilege step-down
 
-By default, this image will check for root privileges at startup and if present switch to a less privileged user before running the HiveMQ broker.
+By default, this image will check for root privileges at startup and, if present, switch to a less privileged user before running the HiveMQ broker.
 
-This will enhance the safety of the container.
+This will enhance the security of the container.
 
 If you wish to skip this step, set the environment variable `HIVEMQ_NO_ROOT_STEP_DOWN` to `false` to disable this step.

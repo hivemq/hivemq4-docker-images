@@ -280,4 +280,3 @@ The repository on the [HiveMQ Docker Hub repository](https://hub.docker.com/r/hi
 | dns-latest | This tag will always point to the latest version of the [DNS discovery image](#dns-discovery-image) | 
 | `<version>` | Base image providing the given version of the broker (e.g. `3.4.1`) |
 | dns-`<version>` | DNS discovery image based on the given version base image
-# hivemq-4-docker-images
