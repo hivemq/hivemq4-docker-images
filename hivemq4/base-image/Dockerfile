@@ -28,7 +28,6 @@ RUN set -x \
         && apt-get purge -y gpg dirmngr && rm -rf /var/lib/apt/lists/*
 
 COPY config.xml /opt/config.xml
-COPY logback.xml /opt/logback.xml
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 
 # HiveMQ setup
@@ -37,7 +36,6 @@ RUN curl https://hivemq.com/releases/hivemq-${HIVEMQ_VERSION}.zip -o /opt/hivemq
     && rm -f /opt/hivemq-${HIVEMQ_VERSION}.zip \
     && ln -s /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq \
     && mv /opt/config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
-    && mv /opt/logback.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/logback.xml \
     && groupadd --gid ${HIVEMQ_GID} hivemq \
     && useradd -g hivemq -d /opt/hivemq -s /bin/bash --uid ${HIVEMQ_UID} hivemq \
     && chmod -R 775 /opt \
