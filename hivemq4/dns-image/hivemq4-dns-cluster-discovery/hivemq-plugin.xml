@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<hivemq-plugin>
-    <id>hivemq4-dns-cluster-discovery</id>
-    <name>HiveMQ 4 DNS Cluster discovery Plugin</name>
-    <version>1.0.0</version>
-    <priority>1000</priority>
-</hivemq-plugin>
