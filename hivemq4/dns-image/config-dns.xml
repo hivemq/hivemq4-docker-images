@@ -34,9 +34,9 @@
         </transport>
         <enabled>true</enabled>
         <discovery>
-            <plugin>
+            <extension>
                 <reload-interval>${HIVEMQ_DNS_DISCOVERY_INTERVAL}</reload-interval>
-            </plugin>
+            </extension>
         </discovery>
     </cluster>
 </hivemq>
