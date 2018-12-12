@@ -36,7 +36,7 @@ See [Features](https://www.hivemq.com/features/) for more information.
 This repository provides the `Dockerfile` and context for the images hosted in the [HiveMQ Docker Hub repository](https://hub.docker.com/r/hivemq/hivemq4/).
 
 # DNS Discovery Image
-The HiveMQ DNS discovery image comes with a DNS discovery plugin.
+The HiveMQ DNS discovery image comes with a DNS discovery extension.
 It can be used with any container orchestration engine that supports service discovery using a round-robin A record.
 
 A custom solution supplying the A record could be used as well.
@@ -57,7 +57,7 @@ The following environment variables should be used to customize the discovery an
 
 ## Building
 
-To build the image, you must first obtain the [HiveMQ DNS discovery](https://github.com/hivemq/hivemq4-dns-cluster-discovery-plugin) plugin and copy the jar file to the `hivemq4/dns-image` folder.
+To build the image, you must first obtain the [HiveMQ DNS discovery](https://github.com/hivemq/hivemq-dns-cluster-discovery-extension) extension and copy the jar file to the `hivemq4/dns-image` folder.
 
 The image can then be built by running `docker build -t hivemq-dns .` in the `hivemq4/dns-image` folder.
 
