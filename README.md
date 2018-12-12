@@ -1,7 +1,8 @@
 
 # Table of Contents
    
-   * [HiveMQ Docker Images](#hivemq4-docker-images)
+   * [What is HiveMQ?](#what-is-hivemq)
+   * [HiveMQ Docker Images](#hivemq-docker-images)
         * [DNS discovery image](#dns-discovery-image)
             * [Building](#building)
             * [Usage](#usage)
@@ -15,6 +16,20 @@
                     * [Overriding the bind address](#overriding-the-bind-address)
         * [HiveMQ base image](#hivemq-base-image)
    * [Tags](#tags)
+   
+# What is HiveMQ?
+
+HiveMQ is a MQTT based messaging platform designed for the fast, efficient and reliable movement of data to and from connected IoT devices. It uses the MQTT protocol for instant, bi-directional push of data between your device and your enterprise systems. 
+HiveMQ is built to address some of the key technical challenges organizations face when building new IoT applications, including:
+
+* Building reliable and scalable business critical IoT applications
+* Fast data delivery to meet the expectations of end users for responsive IoT products
+* Lower cost of operation through efficient use of hardware, network and cloud resources
+* Integrating IoT data into existing enterprise systems
+
+While at its core, HiveMQ is an MQTT 3.1, MQTT 3.1.1 and MQTT 5.0 compliant MQTT broker, HiveMQ excels with its additional features designed for enterprise use cases and professional deployments.
+
+See [Features](https://www.hivemq.com/features/) for more information.
    
 # HiveMQ Docker images
 
