@@ -263,7 +263,7 @@ See [Source IP for Services](https://kubernetes.io/docs/tutorials/services/sourc
 The environment variable `HIVEMQ_CONTROL_CENTER_PASSWORD` allows you to set the password of the HiveMQ Control Center by defining a SHA256 hash for a custom password.
 Additionally, you can also configure the username, using the environment variable `HIVEMQ_CONTROL_CENTER_USER`
 
-See [Generate a SHA256 Password](https://www.hivemq.com/docs/hivemq/latest/#hivemqdocs_generate_sha256_password) to read more about how to generate the password hash.
+See [Generate a SHA256 Password](https://www.hivemq.com/docs/4/control-center/configuration.html#generate-password) to read more about how to generate the password hash.
 
 ## Adding a license
 
