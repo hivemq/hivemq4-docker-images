@@ -10,12 +10,12 @@ ENV JAVA_OPTS "-XX:+UnlockExperimentalVMOptions -XX:+UseNUMA"
 # gosu for root step-down to user-privileged process
 ENV GOSU_VERSION 1.11
 
-# Locale error fix, temporary
+# Set locale
 ENV LANG=en_US.UTF-8
 
 # gosu setup
 RUN set -x \
-        && apt-get update && apt-get install -y --no-install-recommends curl gpg-agent gpg dirmngr \
+        && apt-get update && apt-get install -y --no-install-recommends curl gnupg-agent gnupg dirmngr \
         && curl -fSL "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" -o /usr/local/bin/gosu \
         && curl -fSL "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" -o /usr/local/bin/gosu.asc \
         && export GNUPGHOME="$(mktemp -d)" \
