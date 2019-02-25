@@ -2,6 +2,12 @@
 
 set -eo pipefail
 
+# Decode license and put file if present
+if [ -n "${HIVEMQ_LICENSE}" ]; then
+    echo "Decoding license..."
+    echo ${HIVEMQ_LICENSE} | base64 -d > /opt/hivemq/license/license.lic
+fi
+
 # Step down from root privilege, only when we're attempting to run HiveMQ though.
 if [[ "$1" = "/opt/hivemq/bin/run.sh" && "$(id -u)" = '0' && "${HIVEMQ_NO_ROOT_STEP_DOWN}" != "true" ]]; then
     uid="hivemq"
