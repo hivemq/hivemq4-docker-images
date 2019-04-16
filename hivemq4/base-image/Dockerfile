@@ -5,7 +5,7 @@ ENV HIVEMQ_GID=10000
 ENV HIVEMQ_UID=10000
 
 # Additional JVM options, may be overwritten by user
-ENV JAVA_OPTS "-XX:+UnlockExperimentalVMOptions -XX:+UseNUMA"
+ENV JAVA_OPTS "-XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -XX:InitialRAMPercentage=60 -XX:MaxRAMPercentage=70 -XX:MinRAMPercentage=40 -XX:+UseNUMA"
 
 # gosu for root step-down to user-privileged process
 ENV GOSU_VERSION 1.11
