@@ -295,3 +295,11 @@ The repository on the [HiveMQ Docker Hub repository](https://hub.docker.com/r/hi
 | dns-latest | This tag will always point to the latest version of the [DNS discovery image](#dns-discovery-image) | 
 | `<version>` | Base image providing the given version of the broker (e.g. `4.0.0`) |
 | dns-`<version>` | DNS discovery image based on the given version base image
+
+# Contributing
+If you want to contribute to HiveMQ 4 Docker Images, see the [contribution guidelines](CONTRIBUTING.md).
+
+# License
+
+HiveMQ 4 Docker Images is licensed under the `APACHE LICENSE, VERSION 2.0`. A copy of the license can be found [here](LICENSE).
+
