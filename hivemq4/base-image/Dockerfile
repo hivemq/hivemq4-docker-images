@@ -15,7 +15,7 @@ ENV LANG=en_US.UTF-8
 
 # gosu setup
 RUN set -x \
-        && apt-get update && apt-get install -y --no-install-recommends curl gnupg-agent gnupg dirmngr \
+        && apt-get update && apt-get install -y --no-install-recommends curl gnupg-agent gnupg dirmngr unzip \
         && curl -fSL "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" -o /usr/local/bin/gosu \
         && curl -fSL "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" -o /usr/local/bin/gosu.asc \
         && export GNUPGHOME="$(mktemp -d)" \
