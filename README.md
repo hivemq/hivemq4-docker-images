@@ -57,7 +57,7 @@ The following environment variables should be used to customize the discovery an
 
 ## Building
 
-To build the image, you must first obtain the [HiveMQ DNS discovery](https://github.com/hivemq/hivemq-dns-cluster-discovery-extension) extension and copy the jar file to the `hivemq4/dns-image` folder.
+To build the image, you must first obtain the [HiveMQ DNS discovery](https://github.com/hivemq/hivemq-dns-cluster-discovery-extension) extension, unzip the file and copy the folder to the `hivemq4/dns-image` folder.
 
 The image can then be built by running `docker build -t hivemq-dns .` in the `hivemq4/dns-image` folder.
 
