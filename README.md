@@ -57,7 +57,7 @@ The following environment variables should be used to customize the discovery an
 
 ## Building
 
-To build the image, you must first obtain the [HiveMQ DNS discovery](https://github.com/hivemq/hivemq-dns-cluster-discovery-extension) extension and copy the jar file to the `hivemq4/dns-image` folder.
+To build the image, you must first obtain the [HiveMQ DNS discovery](https://github.com/hivemq/hivemq-dns-cluster-discovery-extension) extension, unzip the file and copy the folder to the `hivemq4/dns-image` folder.
 
 The image can then be built by running `docker build -t hivemq-dns .` in the `hivemq4/dns-image` folder.
 
@@ -295,3 +295,11 @@ The repository on the [HiveMQ Docker Hub repository](https://hub.docker.com/r/hi
 | dns-latest | This tag will always point to the latest version of the [DNS discovery image](#dns-discovery-image) | 
 | `<version>` | Base image providing the given version of the broker (e.g. `4.0.0`) |
 | dns-`<version>` | DNS discovery image based on the given version base image
+
+# Contributing
+If you want to contribute to HiveMQ 4 Docker Images, see the [contribution guidelines](CONTRIBUTING.md).
+
+# License
+
+HiveMQ 4 Docker Images is licensed under the `APACHE LICENSE, VERSION 2.0`. A copy of the license can be found [here](LICENSE).
+
