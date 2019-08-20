@@ -12,7 +12,6 @@ ENV HIVEMQ_CONTROL_CENTER_USER admin
 ENV HIVEMQ_CONTROL_CENTER_PASSWORD a68fc32fc49fc4d04c63724a1f6d0c90442209c46dba6975774cde5e5149caf8
 
 COPY config-dns.xml /opt/hivemq/conf/config.xml
-COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 
 RUN mkdir /opt/hivemq/extensions/hivemq-dns-cluster-discovery
 COPY hivemq-dns-cluster-discovery/* /opt/hivemq/extensions/hivemq-dns-cluster-discovery/
