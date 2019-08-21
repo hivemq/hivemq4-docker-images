@@ -178,6 +178,8 @@ spec:
           value: "20"
         - name: HIVEMQ_DNS_DISCOVERY_INTERVAL
           value: "21"
+        - name: HIVEMQ_CLUSTER_TRANSPORT_TYPE
+          value: "TCP"
         readinessProbe:
           tcpSocket:
             port: 1883
