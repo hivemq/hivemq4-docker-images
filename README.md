@@ -52,6 +52,7 @@ The following environment variables should be used to customize the discovery an
 | HIVEMQ_CLUSTER_PORT | 8000 | Port used for cluster transport |
 | HIVEMQ_LICENSE | - | base64 encoded license file to use for the broker |
 | HIVEMQ_BIND_ADDRESS | - | Set the *cluster transport* bind address, only necessary if the default policy (resolve hostname) fails |
+| HIVEMQ_CLUSTER_TRANSPORT_TYPE | DNS | Set the *cluster transport* type |          
 | HIVEMQ_CONTROL_CENTER_USER | admin | Set the username for the HiveMQ Control Center login |
 | HIVEMQ_CONTROL_CENTER_PASSWORD | SHA256 of `adminhivemq` (default) | Set the password hash for HiveMQ Control Center authentication |
 | HIVEMQ_HIVEMQ_NO_ROOT_STEP_DOWN | - | Disable root privilege step-down at startup by setting this to `true`. See [HiveMQ base image](hivemq4/base-image) for more information. |
