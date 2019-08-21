@@ -14,6 +14,7 @@
                     * [Setting the HiveMQ Control Center username and password](#setting-the-hivemq-control-center-username-and-password)
                     * [Adding a license](#adding-a-license)
                     * [Overriding the bind address](#overriding-the-bind-address)
+                    * [Setting the transport type](#setting-the-transport-type)
         * [HiveMQ base image](#hivemq-base-image)
    * [Tags](#tags)
    
@@ -278,6 +279,14 @@ Set the resulting string as the value for the `HIVEMQ_LICENSE` environment varia
 By default this image will attempt to set the bind address using the containers `${HOSTNAME}` to ensure that HiveMQ will bind the cluster connection to the correct interface so a cluster can be formed.
 
 This behavior can be overridden by setting any value for the environment variable `HIVEMQ_BIND_ADDRESS`. The broker will attempt to use the given value as the bind address instead.
+
+## Setting the transport type
+
+By default this image will use UDP as transport protocol for the cluster transport.
+
+If you would like to use TCP as transport type instead, you can set the `HIVEMQ_CLUSTER_TRANSPORT_TYPE` environment variable to `TCP`.
+
+**Note:** We generally recommend using TCP for the cluster transport, as it makes HiveMQ less susceptible to network splits under high network load.
 
 # HiveMQ base image
 
