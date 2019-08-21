@@ -10,14 +10,18 @@ ENV HIVEMQ_DNS_DISCOVERY_TIMEOUT 30
 ENV HIVEMQ_CLUSTER_PORT 8000
 ENV HIVEMQ_CONTROL_CENTER_USER admin
 ENV HIVEMQ_CONTROL_CENTER_PASSWORD a68fc32fc49fc4d04c63724a1f6d0c90442209c46dba6975774cde5e5149caf8
+ENV HIVEMQ_CLUSTER_TRANSPORT_TYPE UDP
 
 COPY config-dns.xml /opt/hivemq/conf/config.xml
 
 RUN mkdir /opt/hivemq/extensions/hivemq-dns-cluster-discovery
 COPY hivemq-dns-cluster-discovery/* /opt/hivemq/extensions/hivemq-dns-cluster-discovery/
 
-RUN chown -R hivemq:hivemq /opt/hivemq
-RUN chmod +x /opt/docker-entrypoint.sh
+COPY pre-entry.sh /opt/pre-entry.sh
 
-ENTRYPOINT ["/opt/docker-entrypoint.sh"]
+RUN chmod +x /opt/docker-entrypoint.sh \
+    && chmod +x /opt/pre-entry.sh \
+    && chown -R hivemq:hivemq /opt/hivemq
+
+ENTRYPOINT ["/opt/pre-entry.sh"]
 CMD ["/opt/hivemq/bin/run.sh"]
