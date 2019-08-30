@@ -54,6 +54,9 @@ VOLUME /opt/hivemq/log
 #mqtt-clients
 EXPOSE 1883
 
+#websockets
+EXPOSE 8000
+
 #HiveMQ Control Center
 EXPOSE 8080
 
