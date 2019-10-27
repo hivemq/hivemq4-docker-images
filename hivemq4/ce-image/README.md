@@ -2,7 +2,7 @@
 
 ## Basic single instance
 
-To start a single HiveMQ instance and allow access to the MQTT port, 
+To start a single HiveMQ community edition instance and allow access to the MQTT port, 
 [get Docker](https://www.docker.com/get-started) and run the following command:
 
 `docker run --ulimit nofile=500000:500000 -p 8000:8000 -p 1883:1883 hivemq/hivemq4-ce`
