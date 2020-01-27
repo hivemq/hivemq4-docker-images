@@ -60,9 +60,12 @@ readonly exec_cmd
 
 if [[ "$(id -u)" = "0" ]]; then
     # Restrict HiveMQ folder permissions, non-recursive so we don't touch volumes
+    chown "${uid}":"${gid}" /opt/hivemq/data
+    # Any of the following may fail but should still allow HiveMQ to start normally, so lets ignore errors
+    set +e
+    (
     chown "${uid}":"${gid}" /opt/hivemq
     chown "${uid}":"${gid}" /opt/hivemq-*
-    chown "${uid}":"${gid}" /opt/hivemq/data
     chown "${uid}":"${gid}" /opt/hivemq/log
     chown "${uid}":"${gid}" /opt/hivemq/conf
     chown "${uid}":"${gid}" /opt/hivemq/conf/config.xml
@@ -73,6 +76,7 @@ if [[ "$(id -u)" = "0" ]]; then
     chmod 700 /opt/hivemq
     chmod 700 /opt/hivemq-*
     chmod -R 700 /opt/hivemq/bin
+    ) 2>/dev/null
 fi
 
 HIVEMQ_BIND_ADDRESS=${ADDR} ${exec_cmd} "$@"
