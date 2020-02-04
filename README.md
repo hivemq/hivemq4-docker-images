@@ -56,6 +56,7 @@ The following environment variables should be used to customize the discovery an
 | HIVEMQ_CONTROL_CENTER_USER | admin | Set the username for the HiveMQ Control Center login |
 | HIVEMQ_CONTROL_CENTER_PASSWORD | SHA256 of `adminhivemq` (default) | Set the password hash for HiveMQ Control Center authentication |
 | HIVEMQ_HIVEMQ_NO_ROOT_STEP_DOWN | - | Disable root privilege step-down at startup by setting this to `true`. See [HiveMQ base image](hivemq4/base-image) for more information. |
+| HIVEMQ_ALLOW_ALL_CLIENTS | true | Whether the default packaged allow-all extension (starting from `4.3.0`) should be enabled or not. If this is set to false, the extension will be deleted prior to starting the broker. This flag is inactive for all versions prior to `4.3.0`. |
 
 ## Building
 

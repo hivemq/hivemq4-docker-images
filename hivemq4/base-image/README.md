@@ -20,3 +20,11 @@ By default, this image will check for root privileges at startup and, if present
 This will enhance the security of the container.
 
 If you wish to skip this step, set the environment variable `HIVEMQ_NO_ROOT_STEP_DOWN` to `false` to disable this step.
+
+## Disable allow-all extension
+
+By default, this image will use the packaged allow-all extension.
+
+This can be circumvented by setting the `HIVEMQ_ALLOW_ALL_CLIENTS` environment variable to `false`.
+
+This will cause the entrypoint script to delete the extension on startup.
