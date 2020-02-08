@@ -6,7 +6,7 @@
   * [HiveMQ Base Image](#hivemq-base-image)
   * [HiveMQ DNS Discovery Image](#hivemq-dns-discovery-image)
   * [Tags](#tags)
-* [Basic Single Instance](basic-single-instance)
+* [Basic Single Instance](#basic-single-instance)
 * [Clustering](#clustering)
   * [Local Cluster with Docker Swarm](#local-cluster-with-docker-swarm)
     * [Managing the Cluster](#managing-the-cluster)
@@ -60,10 +60,10 @@ The [HiveMQ Docker Hub repository](https://hub.docker.com/r/hivemq/hivemq4/) pro
 
 | Tag | Meaning |
 | :--- | :---  |
-| latest | This tag will always point to the latest version of the [HiveMQ base image](#base-image) |
-| dns-latest | This tag will always point to the latest version of the [HiveMQ DNS discovery image](#dns-discovery-image) | 
-| `<version>` | Base image providing the given version of the broker (e.g. `4.0.0`) |
-| dns-`<version>` | DNS discovery image based on the given version base image |
+| latest | This tag will always point to the latest version of the [HiveMQ base image](#hivemq-base-image) |
+| dns-latest | This tag will always point to the latest version of the [HiveMQ DNS discovery image](#hivemq-dns-discovery-image) | 
+| `<version>` | [Base image](#hivemq-base-image) providing the given version of the broker (e.g. `4.0.0`) |
+| dns-`<version>` | [DNS discovery image](#hivemq-dns-discovery-image) based on the given version base image |
 
 # Basic Single Instance
 
