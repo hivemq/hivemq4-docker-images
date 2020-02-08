@@ -12,11 +12,14 @@
     * [Managing the Cluster](#managing-the-cluster)
   * [Production Use with Kubernetes](#production-use-with-kubernetes)
     * [Accessing the HiveMQ Control Center](#accessing-the-hivemq-control-center)
-    * [Accessing the MQTT port using external clients](#accessing-the-mqtt-port-using-external-clients)
-  * [Setting the HiveMQ Control Center username and password](#setting-the-hivemq-control-center-username-and-password)
-  * [Adding a license](#adding-a-license)
-  * [Overriding the bind address](#overriding-the-bind-address)
-  * [Setting the transport type](#setting-the-transport-type)
+    * [Accessing the MQTT Port Using External Clients](#accessing-the-mqtt-port-using-external-clients)
+* [Configuration](#configuration)
+  * [Setting the HiveMQ Control Center Username and Password](#setting-the-hivemq-control-center-username-and-password)
+  * [Adding a License](#adding-a-license)
+  * [Disable the hivemq-allow-all-extension](#disabling-the-hivemq-allow-all-extension)
+  * [Disabling Privilege Step-Down](#disabling-privilege-step-Down)
+  * [Overriding the Cluster Bind Address](#overriding-the-cluster-bind-address)
+  * [Setting the Cluster Transport Type](#setting-the-cluster-transport-type)
    
 # What is HiveMQ?
 
@@ -106,7 +109,7 @@ Other environments are compatible as well (provided they support DNS discovery i
 
 To start a HiveMQ cluster locally, you can use Docker Swarm.
 
-*Please note that using Docker Swarm in production is not recommended.*
+**Note:** Using Docker Swarm in production is not recommended.
 
 * Start a single node Swarm cluster by running:
 
@@ -251,13 +254,13 @@ spec:
 
 To access the HiveMQ HiveMQ Control Center for a cluster running on Kubernetes, follow these steps:
 
-* Create a service exposing the HiveMQ Control Center of the HiveMQ service. Use the following YAML definition:
+* Create a service exposing the HiveMQ Control Center of the HiveMQ service. Use the following YAML definition (as `web.yaml`):
 
 ```
 kind: Service
 apiVersion: v1
 metadata:
-  name: hivemq-hivemq-control-center
+  name: hivemq-control-center
 spec:
   selector:
     app: hivemq-cluster1
@@ -271,13 +274,13 @@ spec:
 
 * Create the service using `kubectl create -f web.yaml`
 
-*Note that depending on your provider of Kubernetes environment, load balancers might not be available or additional configuration may be necessary to access the HiveMQ Control Center.*
+**Note:** Depending on your provider of Kubernetes environment, load balancers might not be available or additional configuration may be necessary to access the HiveMQ Control Center.
 
-### Accessing the MQTT port using external clients
+### Accessing the MQTT Port Using External Clients
 
 To allow access for the MQTT port of a cluster running on Kubernetes, follow these steps:
 
-* Create a service exposing the MQTT port using a load balancer. You can use the following YAML definition:
+* Create a service exposing the MQTT port using a load balancer. You can use the following YAML definition (as `mqtt.yaml`):
 
 ```
 kind: Service
@@ -296,33 +299,54 @@ spec:
   type: LoadBalancer
 ```
 
-Note that the `externalTrafficPolicy` annotation is necessary to allow the Kubernetes service to maintain a larger amount of concurrent connections.  
+* Create the service using `kubectl create -f mqtt.yaml`
+
+**Note:** The `externalTrafficPolicy` annotation is necessary to allow the Kubernetes service to maintain a larger amount of concurrent connections.  
 See [Source IP for Services](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) for more information.
 
-## Setting the HiveMQ Control Center username and password
+# Configuration
+
+## Setting the HiveMQ Control Center Username and Password
 
 The environment variable `HIVEMQ_CONTROL_CENTER_PASSWORD` allows you to set the password of the HiveMQ Control Center by defining a SHA256 hash for a custom password.
-Additionally, you can also configure the username, using the environment variable `HIVEMQ_CONTROL_CENTER_USER`
+
+Additionally, you can also configure the username, using the environment variable `HIVEMQ_CONTROL_CENTER_USER`.
 
 See [Generate a SHA256 Password](https://www.hivemq.com/docs/4/control-center/configuration.html#generate-password) to read more about how to generate the password hash.
 
-## Adding a license
+## Adding a License
 
-To use a license with this image, you must first encode it as a string.
+To use a license with a HiveMQ docker container, you must first encode it as a string.
 
 To do so, run `cat license.lic | base64` (replace `license.lic` with the path to your license file).
 
 Set the resulting string as the value for the `HIVEMQ_LICENSE` environment variable of the container.
 
-## Overriding the bind address
+## Disabling the hivemq-allow-all-extension
 
-By default this image will attempt to set the bind address using the containers `${HOSTNAME}` to ensure that HiveMQ will bind the cluster connection to the correct interface so a cluster can be formed.
+By default the HiveMQ docker images use the packaged `hivemq-allow-all-extension`.
+
+This can be circumvented by setting the `HIVEMQ_ALLOW_ALL_CLIENTS` environment variable to `false`.
+
+This will cause the entrypoint script to delete the extension on startup.
+
+## Disabling Privilege Step-Down
+
+By default the HiveMQ docker images check for root privileges at startup and, if present, switch to a less privileged user before running the HiveMQ broker.
+
+This will enhance the security of the container.
+
+If you wish to skip this step, set the environment variable `HIVEMQ_NO_ROOT_STEP_DOWN` to `false`.
+
+## Overriding the Cluster Bind Address
+
+By default the HiveMQ DNS discovery image attempts to set the bind address using the containers `${HOSTNAME}` to ensure that HiveMQ will bind the cluster connection to the correct interface so a cluster can be formed.
 
 This behavior can be overridden by setting any value for the environment variable `HIVEMQ_BIND_ADDRESS`. The broker will attempt to use the given value as the bind address instead.
 
-## Setting the transport type
+## Setting the Cluster Transport Type
 
-By default this image will use UDP as transport protocol for the cluster transport.
+By default the HiveMQ DNS discovery image uses UDP as transport protocol for the cluster transport.
 
 If you would like to use TCP as transport type instead, you can set the `HIVEMQ_CLUSTER_TRANSPORT_TYPE` environment variable to `TCP`.
 
