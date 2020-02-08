@@ -11,4 +11,4 @@ You can connect to the broker via MQTT (1883) or Websockets (8000) or the Contro
 
 ## Clustering and Configuration
 
-For clustering and configuration please refer to the [readme](/).
+For clustering and configuration please refer to the [readme](/README.md).
