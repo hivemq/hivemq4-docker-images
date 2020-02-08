@@ -16,7 +16,7 @@
 * [Configuration](#configuration)
   * [Setting the HiveMQ Control Center Username and Password](#setting-the-hivemq-control-center-username-and-password)
   * [Adding a License](#adding-a-license)
-  * [Disable the hivemq-allow-all-extension](#disabling-the-hivemq-allow-all-extension)
+  * [Disabling the hivemq-allow-all-extension](#disabling-the-hivemq-allow-all-extension)
   * [Disabling Privilege Step-Down](#disabling-privilege-step-Down)
   * [Overriding the Cluster Bind Address](#overriding-the-cluster-bind-address)
   * [Setting the Cluster Transport Type](#setting-the-cluster-transport-type)
