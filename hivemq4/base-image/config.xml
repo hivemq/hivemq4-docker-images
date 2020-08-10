@@ -19,15 +19,7 @@
             <allow-extensions>true</allow-extensions>
         </websocket-listener>
     </listeners>
-    <rest-api>
-        <enabled>${HIVEMQ_REST_API_ENABLED}</enabled>
-        <listeners>
-            <http>
-                <port>8888</port>
-                <bind-address>0.0.0.0</bind-address>
-            </http>
-        </listeners>
-    </rest-api>
+    <!--REST-API-CONFIGURATION-->
 
     <control-center>
         <listeners>
