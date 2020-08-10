@@ -24,6 +24,22 @@ if [[ "${HIVEMQ_ALLOW_ALL_CLIENTS}" != "true" ]]; then
     rm -rf /opt/hivemq/extensions/hivemq-allow-all-extension &>/dev/null || true
 fi
 
+
+if [[ "${HIVEMQ_REST_API_ENABLED}" == "true" ]]; then
+  REST_API_ENABLED_CONFIGURATION="<rest-api>
+        <enabled>true</enabled>
+        <listeners>
+            <http>
+                <port>8888</port>
+                <bind-address>0.0.0.0</bind-address>
+            </http>
+        </listeners>
+    </rest-api>"
+  echo "Enabling REST API in config.xml..."
+  REST_API_ENABLED_CONFIGURATION="${REST_API_ENABLED_CONFIGURATION//$'\n'/}"
+  sed -i "s|<\!--REST-API-CONFIGURATION-->|${REST_API_ENABLED_CONFIGURATION}|" /opt/hivemq/conf/config.xml
+fi
+
 echo "set bind address from container hostname to ${ADDR}"
 export HIVEMQ_BIND_ADDRESS=${ADDR}
 
