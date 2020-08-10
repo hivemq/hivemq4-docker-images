@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<hivemq xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<hivemq xmlns:xsi="http:www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="hivemq-config.xsd">
 
     <listeners>
@@ -22,6 +22,16 @@
             </user>
         </users>
     </control-center>
+
+    <rest-api>
+        <enabled>${HIVEMQ_REST_API_ENABLED}</enabled>
+        <listeners>
+            <http>
+                <port>8888</port>
+                <bind-address>0.0.0.0</bind-address>
+            </http>
+        </listeners>
+    </rest-api>
 
     <cluster>
         <transport>
