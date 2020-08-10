@@ -10,6 +10,9 @@ ENV JAVA_OPTS "-XX:+UnlockExperimentalVMOptions -XX:+UseNUMA"
 # Default allow all extension, set this to false to disable it
 ENV HIVEMQ_ALLOW_ALL_CLIENTS "true"
 
+# Enable REST API default value
+ENV HIVEMQ_REST_API_ENABLED "false"
+
 # gosu for root step-down to user-privileged process
 ENV GOSU_VERSION 1.11
 
