@@ -357,7 +357,7 @@ If you would like to use TCP as transport type instead, you can set the `HIVEMQ_
 
 ## Building a custom Docker image
 
-See [our documentation](https://www.hivemq.com/docs/hivemq/4.3/user-guide/docker.html#custom) for more information on how to build custom HiveMQ images.
+See [our documentation](https://www.hivemq.com/docs/hivemq/latest/user-guide/docker.html#custom) for more information on how to build custom HiveMQ images.
 
 # Contributing
 If you want to contribute to HiveMQ 4 Docker Images, see the [contribution guidelines](CONTRIBUTING.md).
