@@ -66,11 +66,13 @@ if [[ "$(id -u)" = "0" ]]; then
     (
     chown "${uid}":"${gid}" /opt/hivemq
     chown "${uid}":"${gid}" /opt/hivemq-*
+    chown "${uid}":"${gid}" /opt/hivemq/audit
     chown "${uid}":"${gid}" /opt/hivemq/log
     chown "${uid}":"${gid}" /opt/hivemq/conf
     chown "${uid}":"${gid}" /opt/hivemq/conf/config.xml
     chown "${uid}":"${gid}" /opt/hivemq/license
     chown "${uid}":"${gid}" /opt/hivemq/backup
+    chown "${uid}":"${gid}" /opt/hivemq/tools
     # Recursive for bin, no volume here
     chown -R "${uid}":"${gid}" /opt/hivemq/bin
     chmod 700 /opt/hivemq
