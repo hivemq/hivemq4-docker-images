@@ -100,7 +100,7 @@ The following environment variables can be used to customize the discovery and b
 | HIVEMQ_CONTROL_CENTER_PASSWORD | SHA256 of `adminhivemq` (default) | Set the password hash for HiveMQ Control Center authentication |
 | HIVEMQ_HIVEMQ_NO_ROOT_STEP_DOWN | - | Disable root privilege step-down at startup by setting this to `true`. See [HiveMQ base image](hivemq4/base-image) for more information. |
 | HIVEMQ_ALLOW_ALL_CLIENTS | true | Whether the default packaged allow-all extension (starting from `4.3.0`) should be enabled or not. If this is set to false, the extension will be deleted prior to starting the broker. This flag is inactive for all versions prior to `4.3.0`. |
-| HIVEMQ_REST_API_ENABLED | false | Whether the REST API (supported starting at `4.4.0`) should be enabled or not. If this is set to true, the REST API will bind to `0.0.0.0` on port `8888` at startup. This flag is inactive for all versions prior to `4.3.0`. |
+| HIVEMQ_REST_API_ENABLED | false | Whether the REST API (supported starting at `4.4.0`) should be enabled or not. If this is set to true, the REST API will bind to `0.0.0.0` on port `8888` at startup. This flag is unused for versions prior to `4.4.0`. |
 
 Following are two examples, describing how to use this image on Docker Swarm and Kubernetes respectively.
 
@@ -178,6 +178,8 @@ docker service logs <id>
 where `<id>` is the container ID listed in the `service ps` command.
 
 ## Production Use with Kubernetes
+
+NOTE: Please consider using the [Kubernetes Operator](https://www.hivemq.com/docs/operator/latest) instead, as it makes production deployment of HiveMQ much easier.
 
 For production we recommend using the DNS discovery image in combination with Kubernetes.
 
@@ -352,6 +354,10 @@ By default the HiveMQ DNS discovery image uses UDP as transport protocol for the
 If you would like to use TCP as transport type instead, you can set the `HIVEMQ_CLUSTER_TRANSPORT_TYPE` environment variable to `TCP`.
 
 **Note:** We generally recommend using TCP for the cluster transport, as it makes HiveMQ less susceptible to network splits under high network load.
+
+## Building a custom Docker image
+
+See [our documentation](https://www.hivemq.com/docs/hivemq/4.3/user-guide/docker.html#custom) for more information on how to build custom HiveMQ images.
 
 # Contributing
 If you want to contribute to HiveMQ 4 Docker Images, see the [contribution guidelines](CONTRIBUTING.md).
