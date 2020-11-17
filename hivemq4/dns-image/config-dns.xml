@@ -26,12 +26,7 @@
 
     <cluster>
         <transport>
-            <udp>
-                <bind-address>${HIVEMQ_BIND_ADDRESS}</bind-address>
-                <bind-port>${HIVEMQ_CLUSTER_PORT}</bind-port>
-                <!-- disable multicast to avoid accidental cluster forming -->
-                <multicast-enabled>false</multicast-enabled>
-            </udp>
+            <!--TRANSPORT_TYPE-->
         </transport>
         <enabled>true</enabled>
         <discovery>
