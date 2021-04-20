@@ -40,6 +40,7 @@ COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 RUN curl -L https://www.hivemq.com/releases/hivemq-${HIVEMQ_VERSION}.zip -o /opt/hivemq-${HIVEMQ_VERSION}.zip \
     && unzip /opt/hivemq-${HIVEMQ_VERSION}.zip  -d /opt/\
     && rm -f /opt/hivemq-${HIVEMQ_VERSION}.zip \
+    && rm -rf /opt/hivemq-${HIVEMQ_VERSION}/tools/hivemq-swarm \
     && ln -s /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq \
     && mv /opt/config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
     && groupadd --gid ${HIVEMQ_GID} hivemq \
