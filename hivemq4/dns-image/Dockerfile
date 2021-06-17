@@ -15,13 +15,12 @@ ENV HIVEMQ_CLUSTER_TRANSPORT_TYPE UDP
 COPY config-dns.xml /opt/hivemq/conf/config.xml
 
 RUN mkdir /opt/hivemq/extensions/hivemq-dns-cluster-discovery
-COPY hivemq-dns-cluster-discovery/* /opt/hivemq/extensions/hivemq-dns-cluster-discovery/
+COPY --chmod=775 hivemq-dns-cluster-discovery/* /opt/hivemq/extensions/hivemq-dns-cluster-discovery/
 
 COPY pre-entry.sh /opt/pre-entry.sh
 
 RUN chmod +x /opt/docker-entrypoint.sh \
-    && chmod +x /opt/pre-entry.sh \
-    && chown -R hivemq:hivemq /opt/hivemq
+    && chmod +x /opt/pre-entry.sh
 
 ENTRYPOINT ["/opt/pre-entry.sh"]
 CMD ["/opt/hivemq/bin/run.sh"]
