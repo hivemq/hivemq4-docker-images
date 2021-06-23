@@ -15,7 +15,7 @@ ENV HIVEMQ_CLUSTER_TRANSPORT_TYPE UDP
 COPY config-dns.xml /opt/hivemq/conf/config.xml
 
 RUN mkdir /opt/hivemq/extensions/hivemq-dns-cluster-discovery
-COPY --chmod=775 hivemq-dns-cluster-discovery/* /opt/hivemq/extensions/hivemq-dns-cluster-discovery/
+COPY hivemq-dns-cluster-discovery/* /opt/hivemq/extensions/hivemq-dns-cluster-discovery/
 
 COPY pre-entry.sh /opt/pre-entry.sh
 
