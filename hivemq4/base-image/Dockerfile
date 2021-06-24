@@ -45,7 +45,6 @@ RUN curl -L https://www.hivemq.com/releases/hivemq-${HIVEMQ_VERSION}.zip -o /opt
     && mv /opt/config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
     && groupadd --gid ${HIVEMQ_GID} hivemq \
     && useradd -g hivemq -d /opt/hivemq -s /bin/bash --uid ${HIVEMQ_UID} hivemq \
-    && chgrp -R 0 /opt \
     && chmod -R 775 /opt \
     && chmod +x /opt/hivemq/bin/run.sh /opt/docker-entrypoint.sh
 
