@@ -45,7 +45,8 @@ RUN curl -L https://www.hivemq.com/releases/hivemq-${HIVEMQ_VERSION}.zip -o /opt
     && mv /opt/config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
     && groupadd --gid ${HIVEMQ_GID} hivemq \
     && useradd -g hivemq -d /opt/hivemq -s /bin/bash --uid ${HIVEMQ_UID} hivemq \
-    && chmod -R 775 /opt \
+    && chgrp -R 0 /opt \
+    && chmod -R 770 /opt \
     && chmod +x /opt/hivemq/bin/run.sh /opt/docker-entrypoint.sh
 
 # Substitute eval for exec and replace OOM flag if necessary (for older releases). This is necessary for proper signal propagation

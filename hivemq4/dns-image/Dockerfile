@@ -17,7 +17,8 @@ COPY config-dns.xml /opt/hivemq/conf/config.xml
 RUN curl -L https://github.com/hivemq/hivemq-dns-cluster-discovery-extension/releases/download/4.1.0/hivemq-dns-cluster-discovery-4.1.0.zip -o /opt/hivemq/extensions/dns-discovery.zip \
     && unzip /opt/hivemq/extensions/dns-discovery.zip -d /opt/hivemq/extensions \
     && rm -f /opt/hivemq/extensions/hivemq-dns-cluster-discovery/*.png \
-    && chmod -R 775 /opt/hivemq/extensions/hivemq-dns-cluster-discovery \
+    && chgrp -R 0 /opt/hivemq/extensions/hivemq-dns-cluster-discovery \
+    && chmod -R 770 /opt/hivemq/extensions/hivemq-dns-cluster-discovery \
     && rm /opt/hivemq/extensions/dns-discovery.zip
 
 COPY pre-entry.sh /opt/pre-entry.sh
