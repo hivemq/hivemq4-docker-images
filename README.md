@@ -85,6 +85,9 @@ It can be used with any container orchestration engine that supports service dis
 
 A custom solution supplying the A record could be used as well.
 
+
+## Environment Variables
+
 The following environment variables can be used to customize the discovery and broker configuration respectively.
 
 | Environment Variable | Default value | Meaning |
@@ -107,6 +110,14 @@ The following environment variables can be used to customize the discovery and b
 Following are two examples, describing how to use this image on Docker Swarm and Kubernetes respectively.
 
 Other environments are compatible as well (provided they support DNS discovery in some way).
+
+## Entrypoint Scripts
+
+There is a `/docker-entrypoint.d` directory which you can `COPY` custom entrypoint scripts to which will be executed before running HiveMQ.
+The scripts must follow the `XX_name.sh` naming scheme, where `XX` is an integer number that will determine the ordering in which the entrypoint scripts are executed.
+
+Depending on the executable bit within the image, they will be either executed normally, or if the executable bit is not set, they will be sourced and run in the parent shell.
+Sourcing allows you to set custom environment variables from an entrypoint script before startup.
 
 ## Local Cluster with Docker Swarm
 
