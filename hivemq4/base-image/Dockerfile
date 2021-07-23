@@ -19,6 +19,9 @@ ENV GOSU_VERSION 1.11
 # Whether we should print additional debug info for the entrypoints
 ENV HIVEMQ_VERBOSE_ENTRYPOINT "false"
 
+# Whether nss_wrapper should be used for starting HiveMQ. Can be disabled for container runtimes that natively fixes the user information in the container at run-time like CRI-O.
+ENV HIVEMQ_USE_NSS_WRAPPER "true"
+
 # Set locale
 ENV LANG=en_US.UTF-8
 
