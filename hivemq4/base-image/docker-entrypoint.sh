@@ -4,6 +4,7 @@ set -eo pipefail
 
 if [[ "${HIVEMQ_VERBOSE_ENTRYPOINT}" == "true" ]]; then
     exec 3>&1
+    set -o xtrace
 else
     exec 3>/dev/null
 fi
