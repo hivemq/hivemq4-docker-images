@@ -25,8 +25,4 @@ RUN curl -L https://github.com/hivemq/hivemq-dns-cluster-discovery-extension/rel
 
 COPY pre-entry.sh /opt/pre-entry.sh
 
-RUN chmod +x /opt/docker-entrypoint.sh \
-    && chmod +x /opt/pre-entry.sh
-
-ENTRYPOINT ["/opt/pre-entry.sh"]
-CMD ["/opt/hivemq/bin/run.sh"]
+RUN chmod +x /opt/pre-entry.sh && ln -s /opt/pre-entry.sh /docker-entrypoint.d/40_dns_entrypoint.sh

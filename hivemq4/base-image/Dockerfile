@@ -16,12 +16,18 @@ ENV HIVEMQ_REST_API_ENABLED "false"
 # gosu for root step-down to user-privileged process
 ENV GOSU_VERSION 1.11
 
+# Whether we should print additional debug info for the entrypoints
+ENV HIVEMQ_VERBOSE_ENTRYPOINT "false"
+
+# Whether nss_wrapper should be used for starting HiveMQ. Can be disabled for container runtimes that natively fixes the user information in the container at run-time like CRI-O.
+ENV HIVEMQ_USE_NSS_WRAPPER "true"
+
 # Set locale
 ENV LANG=en_US.UTF-8
 
 # gosu setup
 RUN set -x \
-        && apt-get update && apt-get install -y --no-install-recommends curl gnupg-agent gnupg dirmngr unzip \
+        && apt-get update && apt-get install -y --no-install-recommends curl gnupg-agent gnupg dirmngr unzip libnss-wrapper \
         && curl -fSL "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" -o /usr/local/bin/gosu \
         && curl -fSL "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" -o /usr/local/bin/gosu.asc \
         && export GNUPGHOME="$(mktemp -d)" \
@@ -31,7 +37,8 @@ RUN set -x \
         && { command -v gpgconf && gpgconf --kill all || :; } \
         && chmod +x /usr/local/bin/gosu \
         && gosu nobody true \
-        && apt-get purge -y gpg dirmngr && rm -rf /var/lib/apt/lists/*
+        && apt-get purge -y gpg dirmngr && rm -rf /var/lib/apt/lists/* \
+        && mkdir -p /docker-entrypoint.d
 
 COPY config.xml /opt/config.xml
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
@@ -48,6 +55,8 @@ RUN curl -L https://www.hivemq.com/releases/hivemq-${HIVEMQ_VERSION}.zip -o /opt
     && chgrp -R 0 /opt \
     && chmod -R 770 /opt \
     && chmod +x /opt/hivemq/bin/run.sh /opt/docker-entrypoint.sh
+
+COPY entrypoints.d/* /docker-entrypoint.d/
 
 # Substitute eval for exec and replace OOM flag if necessary (for older releases). This is necessary for proper signal propagation
 RUN sed -i -e 's|eval \\"java\\" "$HOME_OPT" "$JAVA_OPTS" -jar "$JAR_PATH"|exec "java" $HOME_OPT $JAVA_OPTS -jar "$JAR_PATH"|' /opt/hivemq/bin/run.sh && \
