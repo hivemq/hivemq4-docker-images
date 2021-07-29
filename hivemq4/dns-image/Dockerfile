@@ -2,6 +2,8 @@ ARG BASEIMAGE=hivemq/hivemq4:latest
 
 FROM ${BASEIMAGE}
 
+ARG DNS_DISCOVERY_EXTENSION_VERSION=4.1.0
+
 # Use default DNS resolution timeout as default discovery interval
 ENV HIVEMQ_DNS_DISCOVERY_INTERVAL 31
 ENV HIVEMQ_DNS_DISCOVERY_TIMEOUT 30
@@ -14,14 +16,13 @@ ENV HIVEMQ_CLUSTER_TRANSPORT_TYPE UDP
 
 COPY config-dns.xml /opt/hivemq/conf/config.xml
 
-RUN mkdir /opt/hivemq/extensions/hivemq-dns-cluster-discovery
-COPY hivemq-dns-cluster-discovery/* /opt/hivemq/extensions/hivemq-dns-cluster-discovery/
+RUN curl -L https://github.com/hivemq/hivemq-dns-cluster-discovery-extension/releases/download/${DNS_DISCOVERY_EXTENSION_VERSION}/hivemq-dns-cluster-discovery-${DNS_DISCOVERY_EXTENSION_VERSION}.zip -o /opt/hivemq/extensions/dns-discovery.zip \
+    && unzip /opt/hivemq/extensions/dns-discovery.zip -d /opt/hivemq/extensions \
+    && rm -f /opt/hivemq/extensions/hivemq-dns-cluster-discovery/*.png \
+    && chgrp -R 0 /opt/hivemq/extensions/hivemq-dns-cluster-discovery \
+    && chmod -R 770 /opt/hivemq/extensions/hivemq-dns-cluster-discovery \
+    && rm /opt/hivemq/extensions/dns-discovery.zip
 
 COPY pre-entry.sh /opt/pre-entry.sh
 
-RUN chmod +x /opt/docker-entrypoint.sh \
-    && chmod +x /opt/pre-entry.sh \
-    && chown -R hivemq:hivemq /opt/hivemq
-
-ENTRYPOINT ["/opt/pre-entry.sh"]
-CMD ["/opt/hivemq/bin/run.sh"]
+RUN chmod +x /opt/pre-entry.sh && ln -s /opt/pre-entry.sh /docker-entrypoint.d/40_dns_entrypoint.sh
