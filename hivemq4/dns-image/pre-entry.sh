@@ -7,3 +7,5 @@ elif [[ "${HIVEMQ_CLUSTER_TRANSPORT_TYPE}" == "TCP" ]]; then
     # shellcheck disable=SC2016
     sed -i -e 's|<\!--TRANSPORT_TYPE-->|<tcp><bind-address>${HIVEMQ_BIND_ADDRESS}</bind-address><bind-port>${HIVEMQ_CLUSTER_PORT}</bind-port></tcp>|' /opt/hivemq/conf/config.xml
 fi
+
+exec /opt/docker-entrypoint.sh "$@"
