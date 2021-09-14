@@ -16,5 +16,5 @@ readonly gid
 readonly exec_cmd
 
 if [[ "$(id -u)" = "0" ]]; then
-    find -L /opt \! -user hivemq -exec chown hivemq '{}' +
+    find /opt \! -user "${uid}" -exec chown "${uid}" '{}' + || true >&3
 fi
