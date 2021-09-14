@@ -16,5 +16,5 @@ readonly gid
 readonly exec_cmd
 
 if [[ "$(id -u)" = "0" ]]; then
-    find /opt \! -user "${uid}" -exec chown "${uid}" '{}' + || true 2>&3
+    find /opt \! -user "${uid}" -exec chown "${uid}" '{}' + 2>&3 || true
 fi
