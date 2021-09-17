@@ -8,7 +8,7 @@ if ! getent passwd "$(id -u)" &> /dev/null && [ -e /usr/lib/libnss_wrapper.so ] 
     grep -v -e ^hivemq -e "^$USER_ID" /etc/passwd > "$HOME/passwd"
     echo "hivemq:x:${USER_ID}:${GROUP_ID}:HiveMQ:${HOME}:/bin/false" >> "$HOME/passwd"
 
-    export LD_PRELOAD=/usr/lib/libnss_wrapper.so
+    export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libnss_wrapper.so
     export NSS_WRAPPER_PASSWD=${HOME}/passwd
     export NSS_WRAPPER_GROUP=/etc/group
 fi
