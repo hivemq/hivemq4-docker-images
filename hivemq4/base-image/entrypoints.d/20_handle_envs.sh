@@ -10,6 +10,7 @@ fi
 if [[ -z "${HIVEMQ_BIND_ADDRESS}" ]]; then
     echo >&3 "Getting bind address from container hostname"
     HIVEMQ_BIND_ADDRESS=$(getent hosts ${HOSTNAME} | grep -v 127.0.0.1 | awk '{ print $1 }' | head -n 1)
+    export HIVEMQ_BIND_ADDRESS
 else
     echo >&3 "HiveMQ bind address was overridden by environment variable (value: ${HIVEMQ_BIND_ADDRESS})"
 fi
