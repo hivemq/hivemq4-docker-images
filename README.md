@@ -45,6 +45,10 @@ The [HiveMQ base image](hivemq4/base-image) installs and optimizes the HiveMQ in
 
 It is meant to be used to build custom images or to run a dockerized HiveMQ locally for testing purposes.
 
+### How to Build
+
+The image can then be built by running `docker build -t hivemq .` in the `hivemq4/base-image` folder. To specify the version the argument `--build-arg HIVEMQ_VERSION=4.5.0` can be specified, by running the command `docker build --build-arg HIVEMQ_VERSION=4.5.0 -t hivemq .`.
+
 ## HiveMQ DNS Discovery Image
 
 The [HiveMQ DNS discovery image](hivemq4/dns-image) is based on the HiveMQ base image and adds the [HiveMQ DNS Discovery Extension](https://www.hivemq.com/extension/dns-discovery-extension/).
