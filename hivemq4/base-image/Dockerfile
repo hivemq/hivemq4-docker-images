@@ -1,6 +1,5 @@
-FROM openjdk:11-jre-slim
+FROM openjdk:11-jre-slim as javabase
 
-ARG HIVEMQ_VERSION=4.0.0
 ENV HIVEMQ_GID=10000
 ENV HIVEMQ_UID=10000
 
@@ -37,26 +36,34 @@ RUN set -x \
         && { command -v gpgconf && gpgconf --kill all || :; } \
         && chmod +x /usr/local/bin/gosu \
         && gosu nobody true \
-        && apt-get purge -y gpg dirmngr && rm -rf /var/lib/apt/lists/* \
-        && mkdir -p /docker-entrypoint.d
+        && apt-get purge -y gpg dirmngr && rm -rf /var/lib/apt/lists/*
+
+
+#Additional build image to unpack the zip file and change the permissions without retaining large layers just for those operations
+FROM javabase as unpack
+
+ARG HIVEMQ_VERSION=4.0.0
 
 COPY config.xml /opt/config.xml
-COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
+COPY hivemq-${HIVEMQ_VERSION}.zip /opt/hivemq-${HIVEMQ_VERSION}.zip
+RUN  unzip /opt/hivemq-${HIVEMQ_VERSION}.zip  -d /opt/ \
+     && rm -rf /opt/hivemq-${HIVEMQ_VERSION}/tools/hivemq-swarm \
+     && mv /opt/config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
+     && chgrp -R 0 /opt \
+     && chmod -R 770 /opt
 
-# HiveMQ setup
-RUN curl -L https://www.hivemq.com/releases/hivemq-${HIVEMQ_VERSION}.zip -o /opt/hivemq-${HIVEMQ_VERSION}.zip \
-    && unzip /opt/hivemq-${HIVEMQ_VERSION}.zip  -d /opt/\
-    && rm -f /opt/hivemq-${HIVEMQ_VERSION}.zip \
-    && rm -rf /opt/hivemq-${HIVEMQ_VERSION}/tools/hivemq-swarm \
-    && ln -s /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq \
-    && mv /opt/config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
+FROM javabase
+
+ARG HIVEMQ_VERSION=4.0.0
+
+COPY --from=unpack /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq
+COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
+COPY entrypoints.d/* /docker-entrypoint.d/
+
+RUN mkdir -p /docker-entrypoint.d \
     && groupadd --gid ${HIVEMQ_GID} hivemq \
     && useradd -g hivemq -d /opt/hivemq -s /bin/bash --uid ${HIVEMQ_UID} hivemq \
-    && chgrp -R 0 /opt \
-    && chmod -R 770 /opt \
     && chmod +x /opt/hivemq/bin/run.sh /opt/docker-entrypoint.sh
-
-COPY entrypoints.d/* /docker-entrypoint.d/
 
 # Substitute eval for exec and replace OOM flag if necessary (for older releases). This is necessary for proper signal propagation
 RUN sed -i -e 's|eval \\"java\\" "$HOME_OPT" "$JAVA_OPTS" -jar "$JAR_PATH"|exec "java" $HOME_OPT $JAVA_OPTS -jar "$JAR_PATH"|' /opt/hivemq/bin/run.sh && \
