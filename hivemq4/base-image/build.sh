@@ -4,7 +4,6 @@ set -euo pipefail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd ${DIR}
 
-HIVEMQ_VERSION=${VERSION:-4.7.3}
 IMAGE_NAME=${TARGETIMAGE:-hivemq/hivemq4:$HIVEMQ_VERSION}
 
 #download HiveMQ binary
