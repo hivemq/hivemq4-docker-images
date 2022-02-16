@@ -3,11 +3,9 @@ FROM busybox as unpack
 
 ARG HIVEMQ_VERSION
 
-COPY config.xml /opt/config.xml
 COPY hivemq-${HIVEMQ_VERSION}.zip /opt/hivemq-${HIVEMQ_VERSION}.zip
 RUN  unzip /opt/hivemq-${HIVEMQ_VERSION}.zip  -d /opt/ \
      && rm -rf /opt/hivemq-${HIVEMQ_VERSION}/tools/hivemq-swarm \
-     && mv /opt/config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
      && chgrp -R 0 /opt \
      && chmod -R 770 /opt
 
