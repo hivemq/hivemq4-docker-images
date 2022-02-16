@@ -47,7 +47,7 @@ It is meant to be used to build custom images or to run a dockerized HiveMQ loca
 
 ### How to Build
 
-The image can then be built by running the command `VERSION=4.7.3 ./build.sh` in the `hivemq4/base-image` folder.
+The image can then be built by running the command `HIVEMQ_VERSION=4.7.3 ./build.sh` in the `hivemq4/base-image` folder. An alternative image name can be specified with the environment variable `TARGETIMAGE`, example: `TARGETIMAGE=myregistry/custom-hivemq:1.2.3 HIVEMQ_VERSION=4.7.3 ./build.sh`
 
 ## HiveMQ DNS Discovery Image
 
