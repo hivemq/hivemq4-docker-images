@@ -51,12 +51,11 @@ RUN set -x \
         && apt-get purge -y gpg dirmngr && rm -rf /var/lib/apt/lists/* \
         && mkdir -p /docker-entrypoint.d
 
-COPY --from=unpack /opt/hivemq-${HIVEMQ_VERSION} /opt/
-COPY config.xml /opt/config.xml
+COPY --from=unpack /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq-${HIVEMQ_VERSION}
+COPY config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 
 RUN ln -s /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq \
-    && mv /opt/config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
     && groupadd --gid ${HIVEMQ_GID} hivemq \
     && useradd -g hivemq -d /opt/hivemq -s /bin/bash --uid ${HIVEMQ_UID} hivemq \
     && chgrp 0 /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
