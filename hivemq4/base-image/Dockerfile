@@ -54,6 +54,7 @@ RUN set -x \
 COPY --from=unpack /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq-${HIVEMQ_VERSION}
 COPY config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
+COPY entrypoints.d/* /docker-entrypoint.d/
 
 RUN ln -s /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq \
     && groupadd --gid ${HIVEMQ_GID} hivemq \
@@ -64,22 +65,16 @@ RUN ln -s /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq \
     && chmod 770 /opt/hivemq \
     && chmod +x /opt/hivemq/bin/run.sh /opt/docker-entrypoint.sh
 
-COPY entrypoints.d/* /docker-entrypoint.d/
-
 # Make broker data persistent throughout stop/start cycles
 VOLUME /opt/hivemq/data
 
 # Persist log data
 VOLUME /opt/hivemq/log
 
-#mqtt-clients
-EXPOSE 1883
-
-#websockets
-EXPOSE 8000
-
-#HiveMQ Control Center
-EXPOSE 8080
+# MQTT TCP listener: 1883
+# MQTT Websocket listener: 8000
+# HiveMQ Control Center: 8080
+EXPOSE 1883 8000 8080
 
 WORKDIR /opt/hivemq
 
