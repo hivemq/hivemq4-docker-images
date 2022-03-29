@@ -5,14 +5,12 @@
 * [HiveMQ Docker Images](#hivemq-docker-images)
   * [HiveMQ Base Image](#hivemq-base-image)
   * [HiveMQ DNS Discovery Image](#hivemq-dns-discovery-image)
+  * [Kubernetes Images](#production-use-with-kubernetes)
   * [Tags](#tags)
 * [Basic Single Instance](#basic-single-instance)
 * [Clustering](#clustering)
   * [Local Cluster with Docker Swarm](#local-cluster-with-docker-swarm)
     * [Managing the Cluster](#managing-the-cluster)
-  * [Production Use with Kubernetes](#production-use-with-kubernetes)
-    * [Accessing the HiveMQ Control Center](#accessing-the-hivemq-control-center)
-    * [Accessing the MQTT Port Using External Clients](#accessing-the-mqtt-port-using-external-clients)
 * [Configuration](#configuration)
   * [Setting the HiveMQ Control Center Username and Password](#setting-the-hivemq-control-center-username-and-password)
   * [Adding a License](#adding-a-license)
@@ -60,6 +58,19 @@ We recommend using the HiveMQ DNS discovery image to run HiveMQ in a [cluster](#
 To build the DNS discover image, you must first obtain the [HiveMQ DNS Discovery Extension](https://www.hivemq.com/extension/dns-discovery-extension/), unzip the file and copy the folder to the `hivemq4/dns-image` folder.
 
 The image can then be built by running `docker build -t hivemq-dns .` in the `hivemq4/dns-image` folder.
+
+## Kubernetes Images
+The supported HiveMQ images required for the Helm chart can be found here:
+- HiveMQ broker [image for K8s](hivemq4/k8s-image)
+
+NOTES: 
+- Please consider using the [Helm Chart](https://www.hivemq.com/docs/operator/latest/kubernetes-operator/deploying.html#helm-chart) instead, as it makes production deployment of HiveMQ much easier.
+- For production, we recommend using the DNS discovery image in combination with Kubernetes.
+
+### How to Build
+To build the K8s Image you can pass the arguments:
+- BASEIMAGE
+- HIVEMQ_VERSION
 
 ## Tags
 
@@ -156,7 +167,7 @@ This will provide a 3 node cluster with the MQTT (1883) and HiveMQ Control Cente
 
 This means you can connect MQTT clients on port 1883. The connection will be forwarded to any of the cluster nodes.
 
-The HiveMQ HiveMQ Control Center can be used in a single node cluster.
+The HiveMQ Control Center can be used in a single node cluster.
 A sticky session for the HTTP requests in clusters with multiple nodes cannot be upheld with this configuration, as the internal load balancer forwards requests in an alternating fashion.
 To use sticky sessions the Docker Swarm Enterprise version is required.
 
@@ -194,136 +205,6 @@ docker service logs <id>
 
 where `<id>` is the container ID listed in the `service ps` command.
 
-## Production Use with Kubernetes
-
-NOTE: Please consider using the [Kubernetes Operator](https://www.hivemq.com/docs/operator/latest) instead, as it makes production deployment of HiveMQ much easier.
-
-For production we recommend using the DNS discovery image in combination with Kubernetes.
-
-On Kubernetes, an appropriate deployment configuration is necessary to utilize DNS discovery.
-A [headless service](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) will provide a DNS record for the broker that can be used for discovery.
-
-Following is an example configuration for a HiveMQ cluster with 3 nodes using DNS discovery in a replication controller setup.
-
-Please note that you may have to replace `HIVEMQ_DNS_DISCOVERY_ADDRESS` according to your Kubernetes namespace and configured domain.
-
-```
-apiVersion: v1
-kind: ReplicationController
-metadata:
-  name: hivemq-replica
-spec:
-  replicas: 3
-  selector:
-    app: hivemq-cluster1
-  template:
-    metadata:
-      name: hivemq-cluster1
-      labels:
-        app: hivemq-cluster1
-    spec:
-      containers:
-      - name: hivemq-pods
-        image: hivemq/hivemq4:dns-latest
-        ports:
-        - containerPort: 8080
-          protocol: TCP
-          name: hivemq-control-center
-        - containerPort: 1883
-          protocol: TCP
-          name: mqtt
-        env:
-        - name: HIVEMQ_DNS_DISCOVERY_ADDRESS
-          value: "hivemq-discovery.default.svc.cluster.local."
-        - name: HIVEMQ_DNS_DISCOVERY_TIMEOUT
-          value: "20"
-        - name: HIVEMQ_DNS_DISCOVERY_INTERVAL
-          value: "21"
-        - name: HIVEMQ_CLUSTER_TRANSPORT_TYPE
-          value: "TCP"
-        readinessProbe:
-          tcpSocket:
-            port: 1883
-          initialDelaySeconds: 30
-          periodSeconds: 60
-          failureThreshold: 60
-        livenessProbe:
-          tcpSocket:
-            port: 1883
-          initialDelaySeconds: 30
-          periodSeconds: 60
-          failureThreshold: 60
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: hivemq-discovery
-  annotations:
-    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-spec:
-  selector:
-    app: hivemq-cluster1
-  ports:
-    - protocol: TCP
-      port: 1883
-      targetPort: 1883
-  clusterIP: None
-```
-
-### Accessing the HiveMQ Control Center
-
-To access the HiveMQ HiveMQ Control Center for a cluster running on Kubernetes, follow these steps:
-
-* Create a service exposing the HiveMQ Control Center of the HiveMQ service. Use the following YAML definition (as `web.yaml`):
-
-```
-kind: Service
-apiVersion: v1
-metadata:
-  name: hivemq-control-center
-spec:
-  selector:
-    app: hivemq-cluster1
-  ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8080
-  sessionAffinity: ClientIP
-  type: LoadBalancer
-```
-
-* Create the service using `kubectl create -f web.yaml`
-
-**Note:** Depending on your provider of Kubernetes environment, load balancers might not be available or additional configuration may be necessary to access the HiveMQ Control Center.
-
-### Accessing the MQTT Port Using External Clients
-
-To allow access for the MQTT port of a cluster running on Kubernetes, follow these steps:
-
-* Create a service exposing the MQTT port using a load balancer. You can use the following YAML definition (as `mqtt.yaml`):
-
-```
-kind: Service
-apiVersion: v1
-metadata:
-  name: hivemq-mqtt
-  annotations:
-    service.spec.externalTrafficPolicy: Local
-spec:
-  selector:
-    app: hivemq-cluster1
-  ports:
-    - protocol: TCP
-      port: 1883
-      targetPort: 1883
-  type: LoadBalancer
-```
-
-* Create the service using `kubectl create -f mqtt.yaml`
-
-**Note:** The `externalTrafficPolicy` annotation is necessary to allow the Kubernetes service to maintain a larger amount of concurrent connections.  
-See [Source IP for Services](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) for more information.
-
 # Configuration
 
 ## Setting the HiveMQ Control Center Username and Password
@@ -344,7 +225,7 @@ Set the resulting string as the value for the `HIVEMQ_LICENSE` environment varia
 
 ## Disabling the hivemq-allow-all-extension
 
-By default the HiveMQ docker images use the packaged `hivemq-allow-all-extension`.
+By default, the HiveMQ docker images use the packaged `hivemq-allow-all-extension`.
 
 This can be circumvented by setting the `HIVEMQ_ALLOW_ALL_CLIENTS` environment variable to `false`.
 
@@ -352,7 +233,7 @@ This will cause the entrypoint script to delete the extension on startup.
 
 ## Disabling Privilege Step-Down
 
-By default the HiveMQ docker images check for root privileges at startup and, if present, switch to a less privileged user before running the HiveMQ broker.
+By default, the HiveMQ docker images check for root privileges at startup and, if present, switch to a less privileged user before running the HiveMQ broker.
 
 This will enhance the security of the container.
 
@@ -360,13 +241,13 @@ If you wish to skip this step, set the environment variable `HIVEMQ_NO_ROOT_STEP
 
 ## Overriding the Cluster Bind Address
 
-By default the HiveMQ DNS discovery image attempts to set the bind address using the containers `${HOSTNAME}` to ensure that HiveMQ will bind the cluster connection to the correct interface so a cluster can be formed.
+By default, the HiveMQ DNS discovery image attempts to set the bind address using the containers `${HOSTNAME}` to ensure that HiveMQ will bind the cluster connection to the correct interface so a cluster can be formed.
 
 This behavior can be overridden by setting any value for the environment variable `HIVEMQ_BIND_ADDRESS`. The broker will attempt to use the given value as the bind address instead.
 
 ## Setting the Cluster Transport Type
 
-By default the HiveMQ DNS discovery image uses UDP as transport protocol for the cluster transport.
+By default, the HiveMQ DNS discovery image uses UDP as transport protocol for the cluster transport.
 
 If you would like to use TCP as transport type instead, you can set the `HIVEMQ_CLUSTER_TRANSPORT_TYPE` environment variable to `TCP`.
 
