@@ -12,7 +12,6 @@ env:
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
     env:
       working-directory: ./hivemq4/k8s-image
@@ -20,12 +19,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Get K8s extension
-        run: cd ${working-directory} && wget https://www.hivemq.com/releases/extensions/hivemq-k8s-sync-extension-4.7.5.zip
+        run: wget https://www.hivemq.com/releases/extensions/hivemq-k8s-sync-extension-4.7.5.zip
+        working-directory: ${{env.working-directory}}
       - name: Lint Dockerfile
         run: pwd && docker run --rm --interactive hadolint/hadolint < Dockerfile
+        working-directory: ${{env.working-directory}}
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag  "${IMAGE_TAG}"
+        working-directory: ${{env.working-directory}}
       - name: Test Docker image
         run: |
           curl -LO https://storage.googleapis.com/container-structure-test/latest/container-structure-test-linux-amd64 && chmod +x container-structure-test-linux-amd64 && sudo mv container-structure-test-linux-amd64 /usr/local/bin/container-structure-test
           container-structure-test test --config structure-test.yml --image "${IMAGE_TAG}"
+        working-directory: ${{env.working-directory}}
