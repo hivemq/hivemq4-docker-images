@@ -5,7 +5,7 @@
 * [HiveMQ Docker Images](#hivemq-docker-images)
   * [HiveMQ Base Image](#hivemq-base-image)
   * [HiveMQ DNS Discovery Image](#hivemq-dns-discovery-image)
-  * [Kubernetes Images](#production-use-with-kubernetes)
+  * [HiveMQ Kubernetes Images](#production-use-with-kubernetes)
   * [Tags](#tags)
 * [Basic Single Instance](#basic-single-instance)
 * [Clustering](#clustering)
@@ -59,9 +59,9 @@ To build the DNS discover image, you must first obtain the [HiveMQ DNS Discovery
 
 The image can then be built by running `docker build -t hivemq-dns .` in the `hivemq4/dns-image` folder.
 
-## Kubernetes Images
+## HiveMQ Kubernetes Images
 The supported HiveMQ images required for the Helm chart can be found here:
-- HiveMQ broker [image for K8s](hivemq4/k8s-image)
+- HiveMQ Broker [image for K8s](hivemq4/k8s-image)
 
 NOTES: 
 - Please consider using the [Helm Chart](https://www.hivemq.com/docs/operator/latest/kubernetes-operator/deploying.html#helm-chart) instead, as it makes production deployment of HiveMQ much easier.
