@@ -1,0 +1,31 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  IMAGE_TAG: "hivemq/hivemq4-k8s:test"
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./hivemq4/k8s-image
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Get K8s extension
+        run: wget https://www.hivemq.com/releases/extensions/hivemq-k8s-sync-extension-4.7.5.zip
+      - name: Lint Dockerfile
+        run: docker run --rm --interactive hadolint/hadolint < Dockerfile
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag  "${IMAGE_TAG}"
+      - name: Test Docker image
+        run: |
+          curl -LO https://storage.googleapis.com/container-structure-test/latest/container-structure-test-linux-amd64 && chmod +x container-structure-test-linux-amd64 && sudo mv container-structure-test-linux-amd64 /usr/local/bin/container-structure-test
+          container-structure-test test --config structure-test.yml --image "${IMAGE_TAG}"

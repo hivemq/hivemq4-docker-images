@@ -1,5 +1,5 @@
 ARG BASEIMAGE=hivemq/hivemq4:dns-latest
-ARG K8S_SYNC_EXTENSION_VERSION=1.0.0
+ARG K8S_SYNC_EXTENSION_VERSION=4.7.5
 ARG PROMETHEUS_EXTENSION_VERSION=4.0.4
 
 FROM busybox as BUILD
@@ -20,7 +20,7 @@ COPY prometheusConfiguration.properties /opt/hivemq/extensions/hivemq-prometheus
 ## Clean image to distribute
 FROM ${BASEIMAGE}
 
-ENV HIVEMQ_LOG_LEVEL=INFO \ 
+ENV HIVEMQ_LOG_LEVEL=INFO\
     HIVEMQ_CLUSTER_TRANSPORT_TYPE=TCP
 
 COPY config.xml /opt/hivemq/conf/config.xml
