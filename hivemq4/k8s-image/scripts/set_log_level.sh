@@ -9,4 +9,8 @@ if [[ ! -z $1 ]]; then
     LOG_LEVEL=$1
 fi
 
-sed -E -i -e "s|(.*)root level=\".*\"(.*)|\1root\ level=\"${LOG_LEVEL}\"\2|" /opt/hivemq/conf/logback.xml
+if [[ -L /opt/hivemq/conf/logback.xml ]]; then
+  echo "logback.xml is a symlink (presumably mounted from ConfigMap), not updating file in-place."
+else
+  sed -E -i -e "s|(.*)root level=\".*\"(.*)|\1root\ level=\"${LOG_LEVEL}\"\2|" /opt/hivemq/conf/logback.xml
+fi
