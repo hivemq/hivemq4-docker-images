@@ -1,0 +1,26 @@
+schemaVersion: 2.0.0
+
+fileExistenceTests:
+  - name: hivemq  
+    path: /opt/hivemq
+    shouldExist: true
+  - name: pre_entry
+    path: /opt/hivemq/bin/pre-entry_1.sh
+    shouldExist: true
+  - name: run
+    path: /opt/hivemq/bin/run.sh
+    shouldExist: true
+    isExecutableBy: any
+    permissions: '-rwxrwx--x'
+  
+metadataTest:
+  env:
+    - key: HIVEMQ_CONTROL_CENTER_PASSWORD
+      value: '[^()]'
+      isRegex: true
+    - key: HIVEMQ_CONTROL_CENTER_USER
+      value: '[^()]'
+      isRegex: true
+    - key: HIVEMQ_USE_NSS_WRAPPER
+      value: true
+  exposedPorts: ["1883","8000","8080"]

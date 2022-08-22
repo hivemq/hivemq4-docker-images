@@ -11,3 +11,4 @@ gen
 /.idea/
 .idea/workspace.xml
 **/.DS_Store
+**/*.zip
