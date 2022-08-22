@@ -20,9 +20,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Get K8s extension
-        run: wget https://www.hivemq.com/releases/extensions/hivemq-k8s-sync-extension-4.7.5.zip
+        run: wget https://www.hivemq.com/releases/extensions/hivemq-k8s-sync-extension-4.7.5.zip && pwd
       - name: Lint Dockerfile
-        run: docker run --rm --interactive hadolint/hadolint < Dockerfile
+        run: pwd && docker run --rm --interactive hadolint/hadolint < Dockerfile
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag  "${IMAGE_TAG}"
       - name: Test Docker image
