@@ -44,5 +44,8 @@ RUN rm /opt/hivemq/extensions/prometheusConfiguration.properties \
     && chgrp -R 0 /opt/hivemq/extensions/hivemq-prometheus-extension \
     && chmod -R 770 /opt/hivemq/extensions/hivemq-k8s-sync-extension && chmod -R 770 /opt/hivemq/conf/config.xml
 
+LABEL org.opencontainers.image.vendor=HiveMQ\
+      org.opencontainers.image.source=https://github.com/hivemq/hivemq4-docker-images
+
 ENTRYPOINT ["/opt/hivemq/bin/pre-entry_1.sh"]
 CMD ["/opt/hivemq/bin/run.sh"]
