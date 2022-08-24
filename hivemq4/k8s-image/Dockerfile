@@ -26,7 +26,6 @@ ENV HIVEMQ_LOG_LEVEL=INFO\
 COPY config.xml /opt/hivemq/conf/config.xml
 COPY scripts/*.sh /opt/hivemq/bin/
 COPY --from=BUILD /opt/hivemq/extensions/* /opt/hivemq/extensions/
-RUN cd /opt/hivemq/extensions/ && ls -la
 
 ### Move the entrypoint into the correct position & adjust for whether the base image uses entrypoint.d or not
 ### Fix permissions as --chmod on COPY is not really working at the moment and requires buildkit
