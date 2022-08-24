@@ -29,7 +29,7 @@ COPY scripts/*.sh /opt/hivemq/bin/
 COPY --from=BUILD /opt/hivemq/extensions/* /opt/hivemq/extensions/
 
 RUN if [ -d /docker-entrypoint.d ]; then \
-      echo '# Not Found'; \
+      echo '# Not Found' && mv /opt/hivemq/bin/pre-entry_1.sh /docker-entrypoint.d/15_k8s_entrypoint.sh; \
     else \
       echo '# Found'; \
     fi 
