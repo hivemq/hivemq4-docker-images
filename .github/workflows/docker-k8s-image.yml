@@ -22,7 +22,7 @@ jobs:
         run: wget https://www.hivemq.com/releases/extensions/hivemq-k8s-sync-extension-4.7.5.zip
         working-directory: ${{env.working-directory}}
       - name: Lint Dockerfile
-        run: docker run --rm e HADOLINT_FAILURE_THRESHOLD=error --interactive hadolint/hadolint < Dockerfile
+        run: docker run --rm -e HADOLINT_FAILURE_THRESHOLD=error --interactive hadolint/hadolint < Dockerfile
         working-directory: ${{env.working-directory}}
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag  "${IMAGE_TAG}"
