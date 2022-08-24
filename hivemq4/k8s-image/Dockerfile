@@ -8,7 +8,6 @@ ARG K8S_SYNC_EXTENSION_VERSION
 ARG PROMETHEUS_EXTENSION_VERSION
 
 WORKDIR /opt/hivemq/extensions
-
 COPY hivemq-k8s-sync-extension-"${K8S_SYNC_EXTENSION_VERSION}".zip ./hivemq-k8s-sync-extension.zip
 RUN unzip hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions/hivemq-k8s-sync-extension \
     && rm hivemq-k8s-sync-extension.zip
@@ -28,6 +27,12 @@ ENV HIVEMQ_CLUSTER_TRANSPORT_TYPE TCP
 COPY config.xml /opt/hivemq/conf/config.xml
 COPY scripts/*.sh /opt/hivemq/bin/
 COPY --from=BUILD /opt/hivemq/extensions/* /opt/hivemq/extensions/
+
+RUN if [ -d /docker-entrypoint.d ]; then \
+      echo '# Not Found'; \
+    else \
+      echo '# Found'; \
+    fi 
 
 RUN rm /opt/hivemq/extensions/prometheusConfiguration.properties \
     && chmod +x /opt/hivemq/bin/*.sh \
