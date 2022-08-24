@@ -15,14 +15,14 @@ RUN curl -L https://www.hivemq.com/releases/extensions/hivemq-prometheus-extensi
 COPY scripts/*.sh /opt/hivemq/bin/
 
 # Move the entrypoint into the correct position & adjust for whether the base image uses entrypoint.d or not
-RUN chmod +x /opt/hivemq/bin/*.sh && \
-    if [ -d /docker-entrypoint.d ]; then \
-      mv /opt/hivemq/bin/pre-entry_1.sh /docker-entrypoint.d/15_k8s_entrypoint.sh && \
-      ln -s /opt/docker-entrypoint.sh /opt/hivemq/bin/pre-entry_1.sh; \
-    else \
-      echo '# Pass on to DNS entrypoint' >> /opt/hivemq/bin/pre-entry_1.sh && \
-      echo 'exec /opt/pre-entry.sh "$@"' >> /opt/hivemq/bin/pre-entry_1.sh; \
-    fi
+#RUN chmod +x /opt/hivemq/bin/*.sh && \
+#    if [ -d /docker-entrypoint.d ]; then \
+#      mv /opt/hivemq/bin/pre-entry_1.sh /docker-entrypoint.d/15_k8s_entrypoint.sh && \
+#      ln -s /opt/docker-entrypoint.sh /opt/hivemq/bin/pre-entry_1.sh; \
+#    else \
+#      echo '# Pass on to DNS entrypoint' >> /opt/hivemq/bin/pre-entry_1.sh && \
+#      echo 'exec /opt/pre-entry.sh "$@"' >> /opt/hivemq/bin/pre-entry_1.sh; \
+#    fi
 
 COPY config.xml /opt/hivemq/conf/config.xml
 COPY prometheusConfiguration.properties /opt/hivemq/extensions/hivemq-prometheus-extension/
