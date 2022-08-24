@@ -30,14 +30,7 @@ COPY --from=BUILD /opt/hivemq/extensions/* /opt/hivemq/extensions/
 ### Move the entrypoint into the correct position & adjust for whether the base image uses entrypoint.d or not
 ### Fix permissions as --chmod on COPY is not really working at the moment and requires buildkit
 RUN rm /opt/hivemq/extensions/prometheusConfiguration.properties
-RUN  chmod +x /opt/hivemq/bin/*.sh
-RUN if [ -d /docker-entrypoint.d ]; then \
-      mv /opt/hivemq/bin/pre-entry_1.sh /docker-entrypoint.d/15_k8s_entrypoint.sh && \
-      ln -s /opt/docker-entrypoint.sh /opt/hivemq/bin/pre-entry_1.sh; \
-    else \
-      echo '# Pass on to DNS entrypoint' >> /opt/hivemq/bin/pre-entry_1.sh && \
-      echo 'exec /opt/pre-entry.sh "$@"' >> /opt/hivemq/bin/pre-entry_1.sh; \
-    fi 
+RUN chmod +x /opt/hivemq/bin/*.sh
 RUN chmod -R 770 /opt/hivemq/extensions/hivemq-k8s-sync-extension \
     && chgrp -R 0 /opt/hivemq/extensions/hivemq-k8s-sync-extension \
     && chmod -R 770 /opt/hivemq/extensions/hivemq-prometheus-extension \
