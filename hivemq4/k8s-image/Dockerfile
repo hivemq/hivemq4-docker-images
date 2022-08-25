@@ -1,5 +1,6 @@
 
 ARG BASEIMAGE=hivemq/hivemq4:dns-latest
+
 ARG K8S_SYNC_EXTENSION_VERSION=4.7.5
 ARG PROMETHEUS_EXTENSION_VERSION=4.0.4
 
@@ -26,9 +27,11 @@ ENV HIVEMQ_CLUSTER_TRANSPORT_TYPE TCP
 
 COPY config.xml /opt/hivemq/conf/config.xml
 COPY scripts/*.sh /opt/hivemq/bin/
-COPY --from=BUILD /opt/hivemq/extensions/* /opt/hivemq/extensions/
+RUN ln -s /opt/docker-entrypoint.sh /tmp/pre_entry.sh
 
-RUN  mv /opt/hivemq/bin/pre-entry_1.sh /docker-entrypoint.d/15_k8s_entrypoint.sh && ln -s /opt/docker-entrypoint.sh /opt/hivemq/bin/pre-entry_1.sh
+RUN  mv /opt/hivemq/bin/k8s_pre_entry.sh /docker-entrypoint.d/15_k8s_entrypoint.sh && ln -s /opt/docker-entrypoint.sh /opt/hivemq/bin/pre-entry_k8s.sh
+
+COPY --from=BUILD /opt/hivemq/extensions/* /opt/hivemq/extensions/
 
 #RUN ls /opt /opt/hivemq/bin/ && \
 #    if [ -d /docker-entrypoint.d ]; then \
