@@ -28,14 +28,16 @@ COPY config.xml /opt/hivemq/conf/config.xml
 COPY scripts/*.sh /opt/hivemq/bin/
 COPY --from=BUILD /opt/hivemq/extensions/* /opt/hivemq/extensions/
 
-RUN ls /opt /opt/hivemq/bin/ && \
-    if [ -d /docker-entrypoint.d ]; then \
-      echo '# Not Found' && mv /opt/hivemq/bin/pre-entry_1.sh /docker-entrypoint.d/15_k8s_entrypoint.sh && \
-      ln -s /opt/docker-entrypoint.sh /opt/hivemq/bin/pre-entry_1.sh; \
-    else \
-      echo '# Pass on to DNS entrypoint' >> /opt/hivemq/bin/pre-entry_1.sh && \
-      echo 'exec /opt/pre-entry.sh "$@"' >> /opt/hivemq/bin/pre-entry_1.sh; \
-    fi
+RUN  mv /opt/hivemq/bin/pre-entry_1.sh /docker-entrypoint.d/15_k8s_entrypoint.sh && ln -s /opt/docker-entrypoint.sh /opt/hivemq/bin/pre-entry_1.sh
+
+#RUN ls /opt /opt/hivemq/bin/ && \
+#    if [ -d /docker-entrypoint.d ]; then \
+#      echo '# Not Found' && mv /opt/hivemq/bin/pre-entry_1.sh /docker-entrypoint.d/15_k8s_entrypoint.sh && \
+#      ln -s /opt/docker-entrypoint.sh /opt/hivemq/bin/pre-entry_1.sh; \
+#    else \
+#      echo '# Pass on to DNS entrypoint' >> /opt/hivemq/bin/pre-entry_1.sh && \
+#      echo 'exec /opt/pre-entry.sh "$@"' >> /opt/hivemq/bin/pre-entry_1.sh; \
+#    fi
 
 RUN rm /opt/hivemq/extensions/prometheusConfiguration.properties \
     && chmod +x /opt/hivemq/bin/*.sh \
@@ -49,5 +51,5 @@ LABEL org.opencontainers.image.vendor=HiveMQ\
       org.opencontainers.image.source=https://github.com/hivemq/hivemq4-docker-images
 
 
-ENTRYPOINT ["/opt/hivemq/bin/pre-entry_1.sh"]
-CMD ["/opt/hivemq/bin/run.sh"]
+#ENTRYPOINT ["/opt/hivemq/bin/pre-entry_1.sh"]
+#CMD ["/opt/hivemq/bin/run.sh"]
