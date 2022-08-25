@@ -1,14 +1,14 @@
 ARG BASEIMAGE=hivemq/hivemq4:dns-latest
-ARG K8S_SYNC_EXTENSION_VERSION=4.7.5
+ARG HIVEMQ_VERSION
 ARG PROMETHEUS_EXTENSION_VERSION=4.0.4
 
 FROM busybox:1.35.0 as BUILD
-ARG K8S_SYNC_EXTENSION_VERSION
+ARG HIVEMQ_VERSION
 ARG PROMETHEUS_EXTENSION_VERSION
 
 WORKDIR /opt/hivemq/extensions
 
-COPY hivemq-k8s-sync-extension-"${K8S_SYNC_EXTENSION_VERSION}".zip ./hivemq-k8s-sync-extension.zip
+COPY hivemq-k8s-sync-extension-"${HIVEMQ_VERSION}".zip ./hivemq-k8s-sync-extension.zip
 RUN unzip hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions/hivemq-k8s-sync-extension \
     && rm hivemq-k8s-sync-extension.zip
 
