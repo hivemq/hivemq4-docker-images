@@ -28,13 +28,12 @@ ENV HIVEMQ_CLUSTER_TRANSPORT_TYPE TCP
 COPY config.xml /opt/hivemq/conf/config.xml
 COPY scripts/*.sh /opt/hivemq/bin/
 COPY --from=BUILD /opt/hivemq/extensions/* /opt/hivemq/extensions/
-RUN mv /opt/hivemq/bin/k8s_pre_entry.sh /docker-entrypoint.d/16_k8s_entrypoint.sh
 RUN if [ -d /docker-entrypoint.d ]; then \
-      echo '# Not Found'  && \
-      ln -s /opt/docker-entrypoint.sh /opt/hivemq/bin/k8s_pre_entry.sh; \
+        mv /opt/hivemq/bin/pre_entry_1.sh /docker-entrypoint.d/16_k8s_entrypoint.sh && \
+        ln -s /opt/docker-entrypoint.sh /opt/hivemq/bin/pre_entry_1.sh; \
     else \
-      echo '# Pass on to DNS entrypoint' >> /opt/hivemq/bin/k8s_pre_entry.sh && \
-      echo 'exec /opt/pre-entry.sh "$@"' >> /opt/hivemq/bin/k8s_pre_entry.sh; \
+        echo '# Pass on to DNS entrypoint' >> /opt/hivemq/bin/k8s_pre_entry.sh && \
+        echo 'exec /opt/pre-entry.sh "$@"' >> /opt/hivemq/bin/k8s_pre_entry.sh; \
     fi
 
 RUN rm /opt/hivemq/extensions/prometheusConfiguration.properties \
