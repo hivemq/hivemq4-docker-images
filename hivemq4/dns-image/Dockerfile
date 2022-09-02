@@ -2,7 +2,7 @@ ARG BASEIMAGE=hivemq/hivemq4:latest
 
 FROM ${BASEIMAGE}
 
-ARG DNS_DISCOVERY_EXTENSION_VERSION=4.2.1
+ARG DNS_DISCOVERY_EXTENSION_VERSION=4.2.2
 
 # Use default DNS resolution timeout as default discovery interval
 ENV HIVEMQ_DNS_DISCOVERY_INTERVAL 31
