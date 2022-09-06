@@ -16,6 +16,13 @@ RUN unzip hivemq-prometheus-extension.zip -d /opt/hivemq/extensions/hivemq-prome
     && rm hivemq-prometheus-extension.zip
 COPY prometheusConfiguration.properties /opt/hivemq/extensions/hivemq-prometheus-extension/
 
+
+RUN chmod -R 770 /opt/hivemq/extensions/hivemq-k8s-sync-extension \
+    && chgrp -R 0 /opt/hivemq/extensions/hivemq-k8s-sync-extension \
+    && chmod -R 770 /opt/hivemq/extensions/hivemq-prometheus-extension \
+    && chgrp -R 0 /opt/hivemq/extensions/hivemq-prometheus-extension
+
+
 ## Clean image to distribute
 FROM ${BASEIMAGE}
 
@@ -37,11 +44,7 @@ RUN rm /opt/hivemq/extensions/prometheusConfiguration.properties \
       echo '# Pass on to DNS entrypoint' >> /opt/hivemq/bin/pre-entry_1.sh && \
       echo 'exec /opt/pre-entry.sh "$@"' >> /opt/hivemq/bin/pre-entry_1.sh; \
     fi \
-    && chmod -R 770 /opt/hivemq/extensions/hivemq-k8s-sync-extension \
-    && chgrp -R 0 /opt/hivemq/extensions/hivemq-k8s-sync-extension \
-    && chmod -R 770 /opt/hivemq/extensions/hivemq-prometheus-extension \
-    && chgrp -R 0 /opt/hivemq/extensions/hivemq-prometheus-extension \
-    && chmod -R 770 /opt/hivemq/extensions/hivemq-k8s-sync-extension && chmod -R 770 /opt/hivemq/conf/config.xml
+    && chmod -R 770 /opt/hivemq/conf/config.xml
 
 LABEL org.opencontainers.image.vendor=HiveMQ\
       org.opencontainers.image.source=https://github.com/hivemq/hivemq4-docker-images
