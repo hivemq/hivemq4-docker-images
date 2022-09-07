@@ -6,13 +6,13 @@ ARG PROMETHEUS_EXTENSION_VERSION
 
 WORKDIR /opt/hivemq/extensions
 #Next major version should not be compatible here
-COPY hivemq-k8s-sync-extension-4.?.?.zip ./hivemq-k8s-sync-extension.zip
+COPY hivemq-k8s-sync-extension-*.zip ./hivemq-k8s-sync-extension.zip
 
-RUN unzip hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions/hivemq-k8s-sync-extension \
+RUN unzip hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions/ \
     && rm hivemq-k8s-sync-extension.zip
 
 ADD https://www.hivemq.com/releases/extensions/hivemq-prometheus-extension-"${PROMETHEUS_EXTENSION_VERSION}".zip ./hivemq-prometheus-extension.zip
-RUN unzip hivemq-prometheus-extension.zip -d /opt/hivemq/extensions/hivemq-prometheus-extension \
+RUN unzip hivemq-prometheus-extension.zip -d /opt/hivemq/extensions/ \
     && rm hivemq-prometheus-extension.zip
 COPY prometheusConfiguration.properties /opt/hivemq/extensions/hivemq-prometheus-extension/
 
@@ -31,12 +31,11 @@ ENV HIVEMQ_LOG_LEVEL=INFO\
 
 COPY config.xml /opt/hivemq/conf/config.xml
 COPY scripts/*.sh /opt/hivemq/bin/
-COPY --from=BUILD /opt/hivemq/extensions/* /opt/hivemq/extensions/
+COPY --from=BUILD /opt/hivemq/extensions/ /opt/hivemq/extensions/
 
 ### Move the entrypoint into the correct position & adjust for whether the base image uses entrypoint.d or not
 ### Fix permissions as --chmod on COPY is not really working at the moment and requires buildkit
-RUN rm /opt/hivemq/extensions/prometheusConfiguration.properties \
-    && chmod +x /opt/hivemq/bin/*.sh \
+RUN chmod +x /opt/hivemq/bin/*.sh \
     && if [ -d /docker-entrypoint.d ]; then \
       mv /opt/hivemq/bin/pre-entry_1.sh /docker-entrypoint.d/15_k8s_entrypoint.sh && \
       ln -s /opt/docker-entrypoint.sh /opt/hivemq/bin/pre-entry_1.sh; \
@@ -44,7 +43,8 @@ RUN rm /opt/hivemq/extensions/prometheusConfiguration.properties \
       echo '# Pass on to DNS entrypoint' >> /opt/hivemq/bin/pre-entry_1.sh && \
       echo 'exec /opt/pre-entry.sh "$@"' >> /opt/hivemq/bin/pre-entry_1.sh; \
     fi \
-    && chmod -R 770 /opt/hivemq/conf/config.xml
+    && chmod -R 775 /opt/hivemq/extensions/hivemq-k8s-sync-extension \
+    && chmod -R 775 /opt/hivemq/conf/config.xml
 
 LABEL org.opencontainers.image.vendor=HiveMQ\
       org.opencontainers.image.source=https://github.com/hivemq/hivemq4-docker-images
