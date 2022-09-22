@@ -5,9 +5,8 @@ FROM busybox:1.35.0 as BUILD
 ARG PROMETHEUS_EXTENSION_VERSION
 
 WORKDIR /opt/hivemq/extensions
-#Next major version should not be compatible here
-COPY hivemq-k8s-sync-extension-*.zip ./hivemq-k8s-sync-extension.zip
 
+COPY hivemq-k8s-sync-extension-*.zip ./hivemq-k8s-sync-extension.zip
 RUN unzip hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions/ \
     && rm hivemq-k8s-sync-extension.zip
 
