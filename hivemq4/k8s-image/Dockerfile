@@ -10,7 +10,7 @@ COPY hivemq-k8s-sync-extension-*.zip ./hivemq-k8s-sync-extension.zip
 RUN unzip hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions/ \
     && rm hivemq-k8s-sync-extension.zip
 
-RUN curl -L https://github.com/hivemq/hivemq-prometheus-extension/releases/download/${PROMETHEUS_EXTENSION_VERSION}/hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip > hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip \
+RUN wget https://github.com/hivemq/hivemq-prometheus-extension/releases/download/${PROMETHEUS_EXTENSION_VERSION}/hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip \
     && unzip hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip -d /opt/hivemq/extensions/ \
     && rm hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
 COPY prometheusConfiguration.properties /opt/hivemq/extensions/hivemq-prometheus-extension/
