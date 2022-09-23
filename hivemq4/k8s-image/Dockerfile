@@ -10,9 +10,9 @@ COPY hivemq-k8s-sync-extension-*.zip ./hivemq-k8s-sync-extension.zip
 RUN unzip hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions/ \
     && rm hivemq-k8s-sync-extension.zip
 
-ADD https://www.hivemq.com/releases/extensions/hivemq-prometheus-extension-"${PROMETHEUS_EXTENSION_VERSION}".zip ./hivemq-prometheus-extension.zip
-RUN unzip hivemq-prometheus-extension.zip -d /opt/hivemq/extensions/ \
-    && rm hivemq-prometheus-extension.zip
+RUN curl -L https://github.com/hivemq/hivemq-prometheus-extension/releases/download/${PROMETHEUS_EXTENSION_VERSION}/hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip > hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip \
+    && unzip hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip -d /opt/hivemq/extensions/ \
+    && rm hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
 COPY prometheusConfiguration.properties /opt/hivemq/extensions/hivemq-prometheus-extension/
 
 ## Clean image to distribute
@@ -36,6 +36,7 @@ RUN chmod +x /opt/hivemq/bin/*.sh \
       echo 'exec /opt/pre-entry.sh "$@"' >> /opt/hivemq/bin/pre-entry_1.sh; \
     fi \
     && chmod -R 770 /opt/hivemq/extensions/hivemq-k8s-sync-extension \
+    && chmod -R 770 /opt/hivemq/extensions/hivemq-prometheus-extension \
     && chmod -R 770 /opt/hivemq/conf/config.xml
 
 LABEL org.opencontainers.image.vendor=HiveMQ\
