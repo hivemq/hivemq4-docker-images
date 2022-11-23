@@ -30,9 +30,7 @@
         </transport>
         <enabled>true</enabled>
         <discovery>
-            <extension>
-                <extension/>
-            </extension>
+            <extension/>
         </discovery>
     </cluster>
 </hivemq>
