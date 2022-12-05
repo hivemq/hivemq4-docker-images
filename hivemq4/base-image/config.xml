@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <hivemq xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="hivemq-config.xsd">
+        xsi:noNamespaceSchemaLocation="config.xsd">
 
     <listeners>
         <tcp-listener>

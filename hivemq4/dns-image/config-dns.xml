@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <hivemq xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="hivemq-config.xsd">
+        xsi:noNamespaceSchemaLocation="config.xsd">
 
     <listeners>
         <tcp-listener>
@@ -30,9 +30,7 @@
         </transport>
         <enabled>true</enabled>
         <discovery>
-            <extension>
-                <reload-interval>${HIVEMQ_DNS_DISCOVERY_INTERVAL}</reload-interval>
-            </extension>
+            <extension/>
         </discovery>
     </cluster>
 </hivemq>
