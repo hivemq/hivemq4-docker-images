@@ -28,10 +28,6 @@
                 <bind-port>${HIVEMQ_CLUSTER_PORT}</bind-port>
             </tcp>
         </transport>
-        <discovery>
-            <extension/>
-        </discovery>
-
         <replication>
             <replica-count>${HIVEMQ_CLUSTER_REPLICA_COUNT}</replica-count>
         </replication>
