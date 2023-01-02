@@ -29,7 +29,7 @@
             </tcp>
         </transport>
         <discovery>
-            <extension/>
+                <reload-interval>${HIVEMQ_DNS_DISCOVERY_INTERVAL}</reload-interval>
         </discovery>
 
         <replication>
