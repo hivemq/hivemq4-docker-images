@@ -109,7 +109,6 @@ The following environment variables can be used to customize the discovery and b
 | HIVEMQ_ALLOW_ALL_CLIENTS | true | Whether the default packaged allow-all extension (starting from `4.3.0`) should be enabled or not. If this is set to false, the extension will be deleted prior to starting the broker. This flag is inactive for all versions prior to `4.3.0`. |
 | HIVEMQ_REST_API_ENABLED | false | Whether the REST API (supported starting at `4.4.0`) should be enabled or not. If this is set to true, the REST API will bind to `0.0.0.0` on port `8888` at startup. This flag is unused for versions prior to `4.4.0`. |
 | HIVEMQ_VERBOSE_ENTRYPOINT | false | Whether the entrypoint scripts should print additional debug info. |
-| HIVEMQ_USE_NSS_WRAPPER | true | Whether nss_wrapper should be used for properly configuring user information. |
 
 Following are two examples, describing how to use this image on Docker Swarm and Kubernetes respectively.
 
