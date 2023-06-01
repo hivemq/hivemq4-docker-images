@@ -1,13 +1,13 @@
 #Additional build image to unpack the zip file and change the permissions without retaining large layers just for those operations
-FROM busybox as unpack
+FROM busybox:1.35.0 as unpack
 
 ARG HIVEMQ_VERSION
 
 COPY hivemq-${HIVEMQ_VERSION}.zip /opt/hivemq-${HIVEMQ_VERSION}.zip
-RUN  unzip /opt/hivemq-${HIVEMQ_VERSION}.zip -d /opt/
-RUN rm -rf /opt/hivemq-${HIVEMQ_VERSION}/tools/hivemq-swarm
-RUN chgrp -R 0 /opt
-RUN chmod -R 770 /opt
+RUN  unzip /opt/hivemq-${HIVEMQ_VERSION}.zip -d /opt/ \
+     && rm -rf /opt/hivemq-${HIVEMQ_VERSION}/tools/hivemq-swarm \
+     && chgrp -R 0 /opt \
+     && chmod -R 770 /opt
 
 FROM openjdk:11-jre-slim
 
