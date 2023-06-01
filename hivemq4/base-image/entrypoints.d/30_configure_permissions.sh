@@ -4,7 +4,7 @@
 if [[ "$1" = "/opt/hivemq/bin/run.sh" && "$(id -u)" = '0' && "${HIVEMQ_NO_ROOT_STEP_DOWN}" != "true" ]]; then
     uid="hivemq"
     gid="hivemq"
-    exec_cmd="exec gosu hivemq"
+    exec_cmd="exec chroot --skip-chdir --userspec=hivemq /"
 else
     uid="$(id -u)"
     gid="$(id -g)"
