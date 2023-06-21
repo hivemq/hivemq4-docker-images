@@ -30,6 +30,10 @@ ENV HIVEMQ_VERBOSE_ENTRYPOINT "false"
 # Set locale
 ENV LANG=en_US.UTF-8
 
+RUN set -x \
+    && apt-get update && apt-get install -y --no-install-recommends curl unzip && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /docker-entrypoint.d
+
 COPY --from=unpack /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq-${HIVEMQ_VERSION}
 COPY config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
