@@ -9,7 +9,7 @@ RUN  unzip /opt/hivemq-${HIVEMQ_VERSION}.zip -d /opt/ \
      && chgrp -R 0 /opt \
      && chmod -R 770 /opt
 
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:11-jre-jammy
 
 ARG HIVEMQ_VERSION
 ENV HIVEMQ_GID=10000
@@ -31,7 +31,7 @@ ENV HIVEMQ_VERBOSE_ENTRYPOINT "false"
 ENV LANG=en_US.UTF-8
 
 RUN set -x \
-    && apt-get update && apt-get install -y --no-install-recommends curl unzip && rm -rf /var/lib/apt/lists/* \
+    && apt-get update && apt-get install -y --no-install-recommends unzip && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /docker-entrypoint.d
 
 COPY --from=unpack /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq-${HIVEMQ_VERSION}
