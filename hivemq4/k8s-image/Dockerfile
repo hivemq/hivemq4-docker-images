@@ -1,7 +1,7 @@
 ARG BASEIMAGE=hivemq/hivemq4:dns-latest
 ARG PROMETHEUS_EXTENSION_VERSION=4.0.8
 
-FROM busybox:1.35.0 as BUILD
+FROM alpine:3.18 as BUILD
 ARG PROMETHEUS_EXTENSION_VERSION
 
 WORKDIR /opt/hivemq/extensions
@@ -10,7 +10,7 @@ COPY hivemq-k8s-sync-extension-*.zip ./hivemq-k8s-sync-extension.zip
 RUN unzip hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions/ \
     && rm hivemq-k8s-sync-extension.zip
 
-RUN wget https://github.com/hivemq/hivemq-prometheus-extension/releases/download/${PROMETHEUS_EXTENSION_VERSION}/hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip \
+RUN apk --update add curl && curl -sLO https://github.com/hivemq/hivemq-prometheus-extension/releases/download/${PROMETHEUS_EXTENSION_VERSION}/hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip \
     && unzip hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip -d /opt/hivemq/extensions/ \
     && rm hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
 COPY prometheusConfiguration.properties /opt/hivemq/extensions/hivemq-prometheus-extension/
