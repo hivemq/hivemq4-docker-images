@@ -34,14 +34,15 @@ RUN set -x \
     && apt-get update && apt-get install -y --no-install-recommends unzip && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /docker-entrypoint.d
 
-COPY --from=unpack /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq-${HIVEMQ_VERSION}
+RUN groupadd --gid ${HIVEMQ_GID} hivemq \
+        && useradd -g hivemq -d /opt/hivemq --uid ${HIVEMQ_UID} hivemq --no-create-home --shell /sbin/nologin
+
+COPY --from=unpack --chown=hivemq:hivemq /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq-${HIVEMQ_VERSION}
 COPY config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 COPY entrypoints.d/* /docker-entrypoint.d/
 
 RUN ln -s /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq \
-    && groupadd --gid ${HIVEMQ_GID} hivemq \
-    && useradd -g hivemq -d /opt/hivemq -s /bin/bash --uid ${HIVEMQ_UID} hivemq \
     && chgrp 0 /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
     && chmod 770 /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
     && chgrp 0 /opt/hivemq \
