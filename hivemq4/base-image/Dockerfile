@@ -37,7 +37,7 @@ RUN set -x \
 RUN groupadd --gid ${HIVEMQ_GID} hivemq \
         && useradd -g hivemq -d /opt/hivemq --uid ${HIVEMQ_UID} hivemq --no-create-home --shell /sbin/nologin
 
-COPY --from=unpack --chown=hivemq:hivemq /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq-${HIVEMQ_VERSION}
+COPY --from=unpack --chown=hivemq:root /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq-${HIVEMQ_VERSION}
 COPY config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 COPY entrypoints.d/* /docker-entrypoint.d/
@@ -45,7 +45,7 @@ COPY entrypoints.d/* /docker-entrypoint.d/
 RUN ln -s /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq \
     && chgrp 0 /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
     && chmod 770 /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
-    && chgrp 0 /opt/hivemq \
+    && chown -h hivemq:root /opt/hivemq \
     && chmod 770 /opt/hivemq \
     && chmod +x /opt/hivemq/bin/run.sh /opt/docker-entrypoint.sh
 
