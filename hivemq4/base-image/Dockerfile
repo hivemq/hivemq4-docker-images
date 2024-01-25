@@ -9,7 +9,7 @@ RUN  unzip /opt/hivemq-${HIVEMQ_VERSION}.zip -d /opt/ \
      && chgrp -R 0 /opt \
      && chmod -R 770 /opt
 
-FROM eclipse-temurin:11-jre-jammy
+FROM eclipse-temurin:11.0.22_7-jre-jammy
 
 ARG HIVEMQ_VERSION
 ENV HIVEMQ_GID=10000
