@@ -1,5 +1,5 @@
 #Additional build image to unpack the zip file and change the permissions without retaining large layers just for those operations
-FROM busybox:1.35.0 as unpack
+FROM busybox:1.35.0@sha256:02289a9972c5024cd2f083221f6903786e7f4cb4a9a9696f665d20dd6892e5d6 as unpack
 
 ARG HIVEMQ_VERSION
 

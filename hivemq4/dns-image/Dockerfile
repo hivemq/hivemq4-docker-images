@@ -1,4 +1,4 @@
-ARG BASEIMAGE=hivemq/hivemq4:latest
+ARG BASEIMAGE=hivemq/hivemq4:latest@sha256:727bc3b6049a0adf1465ea15c6c21dcf365c10e7490ecbfa59ad71acfee72720
 
 FROM ${BASEIMAGE}
 
