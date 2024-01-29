@@ -15,7 +15,7 @@ ENV HIVEMQ_CONTROL_CENTER_PASSWORD a68fc32fc49fc4d04c63724a1f6d0c90442209c46dba6
 ENV HIVEMQ_CLUSTER_TRANSPORT_TYPE UDP
 
 COPY config-dns.xml /opt/hivemq/conf/config.xml
-COPY pre-entry.sh /opt/pre-entry.sh
+COPY 40_dns_entrypoint.sh /docker-entrypoint.d/40_dns_entrypoint.sh
 
 RUN curl -L https://github.com/hivemq/hivemq-dns-cluster-discovery-extension/releases/download/${DNS_DISCOVERY_EXTENSION_VERSION}/hivemq-dns-cluster-discovery-${DNS_DISCOVERY_EXTENSION_VERSION}.zip -o /tmp/hivemq-dns-cluster-discovery-extension.zip \
     && unzip /tmp/hivemq-dns-cluster-discovery-extension.zip -d /opt/hivemq/extensions \
@@ -23,5 +23,4 @@ RUN curl -L https://github.com/hivemq/hivemq-dns-cluster-discovery-extension/rel
     && rm -f /opt/hivemq/extensions/hivemq-dns-cluster-discovery/*.png \
     && chgrp -R 0 /opt/hivemq/extensions/hivemq-dns-cluster-discovery \
     && chmod -R 770 /opt/hivemq/extensions/hivemq-dns-cluster-discovery \
-    && chmod +x /opt/pre-entry.sh \
-    && ln -s /opt/pre-entry.sh /docker-entrypoint.d/40_dns_entrypoint.sh
+    && chmod +x /docker-entrypoint.d/40_dns_entrypoint.sh
