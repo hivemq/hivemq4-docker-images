@@ -4,16 +4,17 @@ ARG PROMETHEUS_EXTENSION_VERSION=4.0.8
 FROM alpine:3.19@sha256:c5b1261d6d3e43071626931fc004f70149baeba2c8ec672bd4f27761f8e1ad6b as BUILD
 ARG PROMETHEUS_EXTENSION_VERSION
 
-WORKDIR /opt/hivemq/extensions
+RUN mkdir -p /opt/hivemq/extensions
 
-COPY hivemq-k8s-sync-extension-*.zip ./hivemq-k8s-sync-extension.zip
-RUN unzip hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions/ \
-    && rm hivemq-k8s-sync-extension.zip
+COPY hivemq-k8s-sync-extension-*.zip /tmp/hivemq-k8s-sync-extension.zip
+RUN unzip /tmp/hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions \
+    && rm /tmp/hivemq-k8s-sync-extension.zip
 
-RUN apk --update add curl && curl -sLO https://github.com/hivemq/hivemq-prometheus-extension/releases/download/${PROMETHEUS_EXTENSION_VERSION}/hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip \
-    && unzip hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip -d /opt/hivemq/extensions/ \
-    && rm hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
-COPY prometheusConfiguration.properties /opt/hivemq/extensions/hivemq-prometheus-extension/
+RUN apk --update add curl && curl -L https://github.com/hivemq/hivemq-prometheus-extension/releases/download/${PROMETHEUS_EXTENSION_VERSION}/hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip -o /tmp/hivemq-prometheus-extension.zip \
+    && unzip /tmp/hivemq-prometheus-extension.zip -d /opt/hivemq/extensions \
+    && rm /tmp/hivemq-prometheus-extension.zip \
+    && rm /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
+COPY prometheusConfiguration.properties /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
 
 ## Clean image to distribute
 FROM ${BASEIMAGE}

@@ -17,11 +17,11 @@ ENV HIVEMQ_CLUSTER_TRANSPORT_TYPE UDP
 COPY config-dns.xml /opt/hivemq/conf/config.xml
 COPY pre-entry.sh /opt/pre-entry.sh
 
-RUN curl -L https://github.com/hivemq/hivemq-dns-cluster-discovery-extension/releases/download/${DNS_DISCOVERY_EXTENSION_VERSION}/hivemq-dns-cluster-discovery-${DNS_DISCOVERY_EXTENSION_VERSION}.zip -o /opt/hivemq/extensions/dns-discovery.zip \
-    && unzip /opt/hivemq/extensions/dns-discovery.zip -d /opt/hivemq/extensions \
+RUN curl -L https://github.com/hivemq/hivemq-dns-cluster-discovery-extension/releases/download/${DNS_DISCOVERY_EXTENSION_VERSION}/hivemq-dns-cluster-discovery-${DNS_DISCOVERY_EXTENSION_VERSION}.zip -o /tmp/hivemq-dns-cluster-discovery-extension.zip \
+    && unzip /tmp/hivemq-dns-cluster-discovery-extension.zip -d /opt/hivemq/extensions \
+    && rm /tmp/hivemq-dns-cluster-discovery-extension.zip \
     && rm -f /opt/hivemq/extensions/hivemq-dns-cluster-discovery/*.png \
     && chgrp -R 0 /opt/hivemq/extensions/hivemq-dns-cluster-discovery \
     && chmod -R 770 /opt/hivemq/extensions/hivemq-dns-cluster-discovery \
-    && rm /opt/hivemq/extensions/dns-discovery.zip \
     && chmod +x /opt/pre-entry.sh \
     && ln -s /opt/pre-entry.sh /docker-entrypoint.d/40_dns_entrypoint.sh
