@@ -8,5 +8,15 @@
         "renovate-playground"
     ],
     "useBaseBranchConfig": "merge",
-    "branchPrefix": "renovate/hivemq4-docker-images/"
+    "branchPrefix": "renovate/hivemq4-docker-images/",
+    "packageRules": [
+        // disable updates of the HiveMQ Platform Docker images, so the release job picks up the locally built images
+        // using the `latest` tag (without digest pinning)
+        {
+            "matchPackagePrefixes": [
+                "hivemq/hivemq4"
+            ],
+            "enabled": false
+        }
+    ]
 }
