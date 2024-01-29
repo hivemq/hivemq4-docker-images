@@ -5,8 +5,9 @@ ARG HIVEMQ_VERSION
 
 COPY hivemq-${HIVEMQ_VERSION}.zip /tmp/hivemq.zip
 RUN unzip /tmp/hivemq.zip -d /opt \
-    && rm -rf /opt/hivemq-${HIVEMQ_VERSION}/tools/hivemq-swarm \
-    && chgrp -R 0 /opt \
+    && rm -rf /opt/hivemq-${HIVEMQ_VERSION}/tools/hivemq-swarm
+COPY config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml
+RUN chgrp -R 0 /opt \
     && chmod -R 770 /opt
 
 FROM eclipse-temurin:11.0.22_7-jre-jammy@sha256:985ec5f9ff61ef9e24b2298ef902d773a1e1cb36693d62d0ac4d37e289ff595b
@@ -36,15 +37,12 @@ RUN set -x \
     && mkdir -p /docker-entrypoint.d
 
 COPY --from=unpack /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq-${HIVEMQ_VERSION}
-COPY config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 COPY entrypoints.d/* /docker-entrypoint.d/
 
 RUN ln -s /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq \
     && groupadd --gid ${HIVEMQ_GID} hivemq \
     && useradd -g hivemq -d /opt/hivemq -s /bin/bash --uid ${HIVEMQ_UID} hivemq \
-    && chgrp 0 /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
-    && chmod 770 /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml \
     && chgrp 0 /opt/hivemq \
     && chmod 770 /opt/hivemq \
     && chmod +x /opt/hivemq/bin/run.sh /opt/docker-entrypoint.sh
