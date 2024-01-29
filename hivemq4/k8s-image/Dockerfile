@@ -8,12 +8,14 @@ RUN mkdir -p /opt/hivemq/extensions
 
 COPY hivemq-k8s-sync-extension-*.zip /tmp/hivemq-k8s-sync-extension.zip
 RUN unzip /tmp/hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions \
-    && rm /tmp/hivemq-k8s-sync-extension.zip
+    && rm /tmp/hivemq-k8s-sync-extension.zip \
+    && chmod -R 770 /opt/hivemq/extensions/hivemq-k8s-sync-extension
 
 RUN apk --update add curl && curl -L https://github.com/hivemq/hivemq-prometheus-extension/releases/download/${PROMETHEUS_EXTENSION_VERSION}/hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip -o /tmp/hivemq-prometheus-extension.zip \
     && unzip /tmp/hivemq-prometheus-extension.zip -d /opt/hivemq/extensions \
     && rm /tmp/hivemq-prometheus-extension.zip \
-    && rm /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
+    && rm /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties \
+    && chmod -R 770 /opt/hivemq/extensions/hivemq-prometheus-extension
 COPY prometheusConfiguration.properties /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
 
 ## Clean image to distribute
@@ -29,8 +31,6 @@ COPY --from=BUILD /opt/hivemq/extensions/ /opt/hivemq/extensions/
 
 ### Fix permissions as --chmod on COPY is not really working at the moment and requires buildkit
 RUN chmod +x /opt/hivemq/bin/*.sh \
-    && chmod -R 770 /opt/hivemq/extensions/hivemq-k8s-sync-extension \
-    && chmod -R 770 /opt/hivemq/extensions/hivemq-prometheus-extension \
     && chmod 770 /opt/hivemq/conf/config.xml \
     && chmod 770 /docker-entrypoint.d/15_k8s_entrypoint.sh
 
