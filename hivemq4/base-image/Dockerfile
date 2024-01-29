@@ -1,13 +1,13 @@
 #Additional build image to unpack the zip file and change the permissions without retaining large layers just for those operations
-FROM busybox:1.36.1@sha256:6d9ac9237a84afe1516540f40a0fafdc86859b2141954b4d643af7066d598b74 as unpack
+FROM busybox:1.36.1@sha256:6d9ac9237a84afe1516540f40a0fafdc86859b2141954b4d643af7066d598b74 AS unpack
 
 ARG HIVEMQ_VERSION
 
 COPY hivemq-${HIVEMQ_VERSION}.zip /opt/hivemq-${HIVEMQ_VERSION}.zip
-RUN  unzip /opt/hivemq-${HIVEMQ_VERSION}.zip -d /opt/ \
-     && rm -rf /opt/hivemq-${HIVEMQ_VERSION}/tools/hivemq-swarm \
-     && chgrp -R 0 /opt \
-     && chmod -R 770 /opt
+RUN unzip /opt/hivemq-${HIVEMQ_VERSION}.zip -d /opt \
+    && rm -rf /opt/hivemq-${HIVEMQ_VERSION}/tools/hivemq-swarm \
+    && chgrp -R 0 /opt \
+    && chmod -R 770 /opt
 
 FROM eclipse-temurin:11.0.22_7-jre-jammy@sha256:985ec5f9ff61ef9e24b2298ef902d773a1e1cb36693d62d0ac4d37e289ff595b
 
