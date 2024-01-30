@@ -1,5 +1,6 @@
 ARG BASEIMAGE=hivemq/hivemq4:dns-latest
 
+
 FROM alpine:3.19@sha256:c5b1261d6d3e43071626931fc004f70149baeba2c8ec672bd4f27761f8e1ad6b as BUILD
 
 ARG PROMETHEUS_EXTENSION_VERSION=4.0.8
@@ -18,7 +19,7 @@ RUN apk --update add curl && curl -L https://github.com/hivemq/hivemq-prometheus
     && chmod -R 770 /opt/hivemq/extensions/hivemq-prometheus-extension
 COPY prometheusConfiguration.properties /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
 
-## Clean image to distribute
+
 FROM ${BASEIMAGE}
 
 ENV HIVEMQ_LOG_LEVEL=INFO\
