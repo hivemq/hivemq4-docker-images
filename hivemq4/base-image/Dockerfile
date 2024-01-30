@@ -5,11 +5,12 @@ ARG HIVEMQ_VERSION
 
 COPY hivemq-${HIVEMQ_VERSION}.zip /tmp/hivemq.zip
 RUN unzip /tmp/hivemq.zip -d /opt \
-    && rm -rf /opt/hivemq-${HIVEMQ_VERSION}/tools/hivemq-swarm
-COPY config.xml /opt/hivemq-${HIVEMQ_VERSION}/conf/config.xml
+    && mv /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq \
+    && rm -rf /opt/hivemq/tools/hivemq-swarm
+COPY config.xml /opt/hivemq/conf/config.xml
 RUN chgrp -R 0 /opt \
     && chmod -R 770 /opt \
-    && chmod +x /opt/hivemq-${HIVEMQ_VERSION}/bin/run.sh
+    && chmod +x /opt/hivemq/bin/run.sh
 
 FROM eclipse-temurin:11.0.22_7-jre-jammy@sha256:985ec5f9ff61ef9e24b2298ef902d773a1e1cb36693d62d0ac4d37e289ff595b
 
@@ -39,13 +40,12 @@ RUN set -x \
 
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 COPY entrypoints.d/* /docker-entrypoint.d/
-COPY --from=unpack /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq-${HIVEMQ_VERSION}
-RUN ln -s /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq \
+COPY --from=unpack /opt/hivemq /opt/hivemq
+RUN chmod +x /opt/docker-entrypoint.sh \
     && groupadd --gid ${HIVEMQ_GID} hivemq \
     && useradd -g hivemq -d /opt/hivemq -s /bin/bash --uid ${HIVEMQ_UID} hivemq \
     && chgrp 0 /opt/hivemq \
-    && chmod 770 /opt/hivemq \
-    && chmod +x /opt/docker-entrypoint.sh
+    && chmod 770 /opt/hivemq
 
 # Make broker data persistent throughout stop/start cycles
 VOLUME /opt/hivemq/data
