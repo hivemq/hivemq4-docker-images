@@ -15,9 +15,9 @@ RUN unzip /tmp/hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions \
 RUN apk --update add curl && curl -L https://github.com/hivemq/hivemq-prometheus-extension/releases/download/${PROMETHEUS_EXTENSION_VERSION}/hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip -o /tmp/hivemq-prometheus-extension.zip \
     && unzip /tmp/hivemq-prometheus-extension.zip -d /opt/hivemq/extensions \
     && rm /tmp/hivemq-prometheus-extension.zip \
-    && rm /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties \
-    && chmod -R 770 /opt/hivemq/extensions/hivemq-prometheus-extension
+    && rm /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
 COPY prometheusConfiguration.properties /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
+RUN chmod -R 770 /opt/hivemq/extensions/hivemq-prometheus-extension
 
 
 FROM ${BASEIMAGE}
