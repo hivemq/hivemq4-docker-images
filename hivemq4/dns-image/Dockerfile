@@ -21,6 +21,5 @@ RUN curl -L https://github.com/hivemq/hivemq-dns-cluster-discovery-extension/rel
     && unzip /tmp/hivemq-dns-cluster-discovery-extension.zip -d /opt/hivemq/extensions \
     && rm /tmp/hivemq-dns-cluster-discovery-extension.zip \
     && rm -f /opt/hivemq/extensions/hivemq-dns-cluster-discovery/*.png \
-    && chgrp -R 0 /opt/hivemq/extensions/hivemq-dns-cluster-discovery \
     && chmod -R 770 /opt/hivemq/extensions/hivemq-dns-cluster-discovery \
     && chmod +x /docker-entrypoint.d/40_dns_entrypoint.sh
