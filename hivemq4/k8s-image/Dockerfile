@@ -1,7 +1,7 @@
 ARG BASEIMAGE=hivemq/hivemq4:dns-latest
 
 
-FROM alpine:3.19@sha256:c5b1261d6d3e43071626931fc004f70149baeba2c8ec672bd4f27761f8e1ad6b as BUILD
+FROM alpine:3.19@sha256:c5b1261d6d3e43071626931fc004f70149baeba2c8ec672bd4f27761f8e1ad6b as unpack
 
 ARG PROMETHEUS_EXTENSION_VERSION=4.0.8
 
@@ -28,7 +28,7 @@ ENV HIVEMQ_LOG_LEVEL=INFO\
 COPY config.xml /opt/hivemq/conf/config.xml
 COPY 15_k8s_entrypoint.sh /docker-entrypoint.d/15_k8s_entrypoint.sh
 COPY scripts/*.sh /opt/hivemq/bin/
-COPY --from=BUILD /opt/hivemq/extensions/ /opt/hivemq/extensions/
+COPY --from=unpack /opt/hivemq/extensions/ /opt/hivemq/extensions/
 
 ### Fix permissions as --chmod on COPY is not really working at the moment and requires buildkit
 RUN chmod +x /opt/hivemq/bin/*.sh \
