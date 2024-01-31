@@ -33,9 +33,8 @@ COPY config.xml /opt/hivemq/conf/config.xml
 COPY 15_k8s_entrypoint.sh /docker-entrypoint.d/15_k8s_entrypoint.sh
 COPY scripts/*.sh /opt/hivemq/bin/
 COPY --from=unpack /opt/hivemq/extensions/ /opt/hivemq/extensions/
-RUN chmod +x /opt/hivemq/bin/*.sh \
-    && chmod 770 /opt/hivemq/conf/config.xml \
-    && chmod 770 /docker-entrypoint.d/15_k8s_entrypoint.sh
+RUN chmod 770 /opt/hivemq/conf/config.xml \
+    && chmod +x /docker-entrypoint.d/15_k8s_entrypoint.sh /opt/hivemq/bin/*.sh
 
 LABEL org.opencontainers.image.vendor=HiveMQ\
       org.opencontainers.image.source=https://github.com/hivemq/hivemq4-docker-images
