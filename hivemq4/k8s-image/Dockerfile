@@ -8,11 +8,13 @@ ARG PROMETHEUS_EXTENSION_VERSION=4.0.8
 
 RUN mkdir -p /opt/hivemq/extensions
 
+# Unpack hivemq-k8s-sync-extension
 COPY hivemq-k8s-sync-extension-*.zip /tmp/hivemq-k8s-sync-extension.zip
 RUN unzip /tmp/hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions \
     && rm /tmp/hivemq-k8s-sync-extension.zip \
     && chmod -R 770 /opt/hivemq/extensions/hivemq-k8s-sync-extension
 
+# Unpack hivemq-prometheus-extension
 RUN apk --update add curl && curl -L https://github.com/hivemq/hivemq-prometheus-extension/releases/download/${PROMETHEUS_EXTENSION_VERSION}/hivemq-prometheus-extension-${PROMETHEUS_EXTENSION_VERSION}.zip -o /tmp/hivemq-prometheus-extension.zip \
     && unzip /tmp/hivemq-prometheus-extension.zip -d /opt/hivemq/extensions \
     && rm /tmp/hivemq-prometheus-extension.zip \
@@ -31,8 +33,6 @@ COPY config.xml /opt/hivemq/conf/config.xml
 COPY 15_k8s_entrypoint.sh /docker-entrypoint.d/15_k8s_entrypoint.sh
 COPY scripts/*.sh /opt/hivemq/bin/
 COPY --from=unpack /opt/hivemq/extensions/ /opt/hivemq/extensions/
-
-### Fix permissions as --chmod on COPY is not really working at the moment and requires buildkit
 RUN chmod +x /opt/hivemq/bin/*.sh \
     && chmod 770 /opt/hivemq/conf/config.xml \
     && chmod 770 /docker-entrypoint.d/15_k8s_entrypoint.sh
