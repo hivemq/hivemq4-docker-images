@@ -8,7 +8,7 @@ RUN unzip /tmp/hivemq.zip -d /opt \
     && mv /opt/hivemq-${HIVEMQ_VERSION} /opt/hivemq \
     && rm -rf /opt/hivemq/tools/hivemq-swarm
 COPY config.xml /opt/hivemq/conf/config.xml
-RUN chmod -R 770 /opt \
+RUN chmod -R 770 /opt/hivemq \
     && chmod +x /opt/hivemq/bin/run.sh
 
 
