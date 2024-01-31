@@ -37,6 +37,7 @@ RUN set -x \
     && apt-get update && apt-get install -y --no-install-recommends unzip && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /docker-entrypoint.d
 
+# HiveMQ setup
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 COPY entrypoints.d/* /docker-entrypoint.d/
 COPY --from=unpack /opt/hivemq /opt/hivemq

@@ -18,6 +18,7 @@ ENV HIVEMQ_CLUSTER_TRANSPORT_TYPE=UDP
 COPY config.xml /opt/hivemq/conf/config.xml
 COPY 40_dns_entrypoint.sh /docker-entrypoint.d/40_dns_entrypoint.sh
 
+# Setup hivemq-dns-cluster-discovery-extension
 RUN curl -L https://github.com/hivemq/hivemq-dns-cluster-discovery-extension/releases/download/${DNS_DISCOVERY_EXTENSION_VERSION}/hivemq-dns-cluster-discovery-${DNS_DISCOVERY_EXTENSION_VERSION}.zip -o /tmp/hivemq-dns-cluster-discovery-extension.zip \
     && unzip /tmp/hivemq-dns-cluster-discovery-extension.zip -d /opt/hivemq/extensions \
     && rm /tmp/hivemq-dns-cluster-discovery-extension.zip \
