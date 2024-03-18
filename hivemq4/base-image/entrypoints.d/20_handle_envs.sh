@@ -36,4 +36,20 @@ if [[ "${HIVEMQ_REST_API_ENABLED}" == "true" ]]; then
   sed -i "s|<\!--REST-API-CONFIGURATION-->|${REST_API_ENABLED_CONFIGURATION}|" /opt/hivemq/conf/config.xml
 fi
 
+if [[ "${HIVEMQ_USE_JEMALLOC}" == "true" ]]; then
+  echo "Enabling jemalloc. Attempting to find it..."
+  # According to https://packages.ubuntu.com/jammy/libjemalloc2 it can be found under:
+  # /usr/lib/<architecture>/libjemalloc.so.2
+  JEMALLOC_LOCATION=$(find /usr/lib/* -name libjemalloc.so.2 -print -quit)
+  if [[ -f "${JEMALLOC_LOCATION}" ]]; then
+    echo "Updating run.sh script to use jemalloc at: $JEMALLOC_LOCATION"
+    sed -i "s|#export LD_PRELOAD=/path/to/liballocator.so|export LD_PRELOAD=${JEMALLOC_LOCATION}|" /opt/hivemq/bin/run.sh
+  else
+    echo "Unable to find jemalloc. Terminating."
+    exit 1
+  fi
+else
+  echo "Leaving jemalloc disabled"
+fi
+
 echo >&3 "setting bind address to ${HIVEMQ_BIND_ADDRESS}"

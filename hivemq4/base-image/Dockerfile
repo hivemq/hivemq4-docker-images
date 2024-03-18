@@ -27,6 +27,9 @@ ENV HIVEMQ_ALLOW_ALL_CLIENTS=true
 # Enable REST API default value
 ENV HIVEMQ_REST_API_ENABLED=false
 
+# Whether to use jemalloc instead of glibc as the native memory allocator
+ENV HIVEMQ_USE_JEMALLOC=true
+
 # Whether we should print additional debug info for the entrypoints
 ENV HIVEMQ_VERBOSE_ENTRYPOINT=false
 
@@ -34,7 +37,7 @@ ENV HIVEMQ_VERBOSE_ENTRYPOINT=false
 ENV LANG=en_US.UTF-8
 
 RUN set -x \
-    && apt-get update && apt-get install -y --no-install-recommends unzip && rm -rf /var/lib/apt/lists/* \
+    && apt-get update && apt-get install -y --no-install-recommends unzip libjemalloc2 && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /docker-entrypoint.d
 
 # HiveMQ setup
