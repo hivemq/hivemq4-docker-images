@@ -3,6 +3,8 @@ ARG BASEIMAGE=hivemq/hivemq4:latest
 
 FROM ${BASEIMAGE}
 
+USER 0
+
 ARG DNS_DISCOVERY_EXTENSION_VERSION=4.2.5
 
 # Use default DNS resolution timeout as default discovery interval
@@ -24,3 +26,5 @@ RUN curl -L https://github.com/hivemq/hivemq-dns-cluster-discovery-extension/rel
     && rm /tmp/hivemq-dns-cluster-discovery-extension.zip \
     && chmod -R 770 /opt/hivemq/extensions/hivemq-dns-cluster-discovery \
     && chmod +x /docker-entrypoint.d/40_dns_entrypoint.sh
+
+USER 10000
