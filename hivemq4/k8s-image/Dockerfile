@@ -31,12 +31,11 @@ USER 0
 ENV HIVEMQ_LOG_LEVEL=INFO\
     HIVEMQ_CLUSTER_TRANSPORT_TYPE=TCP
 
-COPY config.xml /opt/hivemq/conf/config.xml
-COPY 15_k8s_entrypoint.sh /docker-entrypoint.d/15_k8s_entrypoint.sh
+COPY --chmod=770 config.xml /opt/hivemq/conf/config.xml
+COPY --chmod=755 15_k8s_entrypoint.sh /docker-entrypoint.d/15_k8s_entrypoint.sh
 COPY scripts/*.sh /opt/hivemq/bin/
 COPY --from=unpack /opt/hivemq/extensions/ /opt/hivemq/extensions/
-RUN chmod 770 /opt/hivemq/conf/config.xml \
-    && chmod +x /docker-entrypoint.d/15_k8s_entrypoint.sh /opt/hivemq/bin/*.sh
+RUN chmod +x /opt/hivemq/bin/*.sh
 
 LABEL org.opencontainers.image.vendor=HiveMQ\
       org.opencontainers.image.source=https://github.com/hivemq/hivemq4-docker-images
