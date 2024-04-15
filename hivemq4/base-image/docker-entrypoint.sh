@@ -21,4 +21,4 @@ for f in $(find "/docker-entrypoint.d/" -follow -type f -print | sort -V); do
   fi
 done
 
-${exec_cmd} "$@"
+exec "$@"
