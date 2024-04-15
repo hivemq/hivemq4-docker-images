@@ -15,9 +15,6 @@ RUN chmod -R 770 /opt/hivemq \
 # Actual image
 FROM eclipse-temurin:21.0.2_13-jre-jammy@sha256:7ee0d51696b3c314bdb96d7a9931140ef2499cc95dccab4dfddbaf2fe59f51a5
 
-ARG HIVEMQ_GID=10000
-ARG HIVEMQ_UID=10000
-
 # Additional JVM options, may be overwritten by user
 ENV JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseNUMA"
 
@@ -42,8 +39,6 @@ COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 COPY entrypoints.d/* /docker-entrypoint.d/
 COPY --from=unpack /opt/hivemq /opt/hivemq
 RUN chmod +x /opt/docker-entrypoint.sh \
-    && groupadd --gid ${HIVEMQ_GID} hivemq \
-    && useradd -g hivemq -d /opt/hivemq -s /bin/bash --uid ${HIVEMQ_UID} hivemq \
     && chmod 770 /opt/hivemq
 
 # Make broker data persistent throughout stop/start cycles
@@ -61,3 +56,5 @@ WORKDIR /opt/hivemq
 
 ENTRYPOINT ["/opt/docker-entrypoint.sh"]
 CMD ["/opt/hivemq/bin/run.sh"]
+
+USER 10000
