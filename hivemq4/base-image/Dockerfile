@@ -35,11 +35,10 @@ RUN set -x \
     && mkdir -p /docker-entrypoint.d
 
 # HiveMQ setup
-COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
+COPY --chmod=755 docker-entrypoint.sh /opt/docker-entrypoint.sh
 COPY entrypoints.d/* /docker-entrypoint.d/
 COPY --from=unpack /opt/hivemq /opt/hivemq
-RUN chmod +x /opt/docker-entrypoint.sh \
-    && chmod 770 /opt/hivemq
+RUN chmod 770 /opt/hivemq
 
 # Make broker data persistent throughout stop/start cycles
 VOLUME /opt/hivemq/data
