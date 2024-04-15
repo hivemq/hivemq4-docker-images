@@ -26,6 +26,8 @@ RUN chmod -R 770 /opt/hivemq/extensions/hivemq-prometheus-extension
 # Actual image
 FROM ${BASEIMAGE}
 
+USER 0
+
 ENV HIVEMQ_LOG_LEVEL=INFO\
     HIVEMQ_CLUSTER_TRANSPORT_TYPE=TCP
 
@@ -38,3 +40,5 @@ RUN chmod 770 /opt/hivemq/conf/config.xml \
 
 LABEL org.opencontainers.image.vendor=HiveMQ\
       org.opencontainers.image.source=https://github.com/hivemq/hivemq4-docker-images
+
+USER 10000
