@@ -17,7 +17,6 @@
   * [Setting the HiveMQ Control Center Username and Password](#setting-the-hivemq-control-center-username-and-password)
   * [Adding a License](#adding-a-license)
   * [Disabling the hivemq-allow-all-extension](#disabling-the-hivemq-allow-all-extension)
-  * [Disabling Privilege Step-Down](#disabling-privilege-step-Down)
   * [Overriding the Cluster Bind Address](#overriding-the-cluster-bind-address)
   * [Setting the Cluster Transport Type](#setting-the-cluster-transport-type)
    
@@ -105,7 +104,6 @@ The following environment variables can be used to customize the discovery and b
 | HIVEMQ_LICENSE | - | base64 encoded license file to use for the broker |
 | HIVEMQ_CONTROL_CENTER_USER | admin | Set the username for the HiveMQ Control Center login |
 | HIVEMQ_CONTROL_CENTER_PASSWORD | SHA256 of `hivemq` (default) | Set the password hash for HiveMQ Control Center authentication |
-| HIVEMQ_NO_ROOT_STEP_DOWN | - | Disable root privilege step-down at startup by setting this to `true`. See [HiveMQ base image](hivemq4/base-image) for more information. |
 | HIVEMQ_ALLOW_ALL_CLIENTS | true | Whether the default packaged allow-all extension (starting from `4.3.0`) should be enabled or not. If this is set to false, the extension will be deleted prior to starting the broker. This flag is inactive for all versions prior to `4.3.0`. |
 | HIVEMQ_REST_API_ENABLED | false | Whether the REST API (supported starting at `4.4.0`) should be enabled or not. If this is set to true, the REST API will bind to `0.0.0.0` on port `8888` at startup. This flag is unused for versions prior to `4.4.0`. |
 | HIVEMQ_VERBOSE_ENTRYPOINT | false | Whether the entrypoint scripts should print additional debug info. |
@@ -348,14 +346,6 @@ By default the HiveMQ docker images use the packaged `hivemq-allow-all-extension
 This can be circumvented by setting the `HIVEMQ_ALLOW_ALL_CLIENTS` environment variable to `false`.
 
 This will cause the entrypoint script to delete the extension on startup.
-
-## Disabling Privilege Step-Down
-
-By default the HiveMQ docker images check for root privileges at startup and, if present, switch to a less privileged user before running the HiveMQ broker.
-
-This will enhance the security of the container.
-
-If you wish to skip this step, set the environment variable `HIVEMQ_NO_ROOT_STEP_DOWN` to `false`.
 
 ## Overriding the Cluster Bind Address
 
