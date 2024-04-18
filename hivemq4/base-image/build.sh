@@ -7,7 +7,7 @@ cd ${DIR}
 IMAGE_NAME=${TARGETIMAGE:-hivemq/hivemq4:$HIVEMQ_VERSION}
 
 #download HiveMQ binary
-[ -f "hivemq-${HIVEMQ_VERSION}.zip" ] || (curl -L https://www.hivemq.com/releases/hivemq-${HIVEMQ_VERSION}.zip -o hivemq-${HIVEMQ_VERSION}.zip)
+[ -f "hivemq-${HIVEMQ_VERSION}.zip" ] || (curl -L https://releases.hivemq.com/hivemq-${HIVEMQ_VERSION}.zip -o hivemq-${HIVEMQ_VERSION}.zip)
 
 #build docker image
 docker build --build-arg HIVEMQ_VERSION=${HIVEMQ_VERSION} -f Dockerfile . -t ${IMAGE_NAME}
