@@ -193,7 +193,7 @@ where `<id>` is the container ID listed in the `service ps` command.
 
 ## Production Use with Kubernetes
 
-NOTE: Please consider using the [Kubernetes Operator](https://www.hivemq.com/docs/operator/latest) instead, as it makes production deployment of HiveMQ much easier.
+NOTE: Please consider using the [Kubernetes Operator](https://docs.hivemq.com/hivemq-platform-operator/introduction.html) instead, as it makes production deployment of HiveMQ much easier.
 
 For production we recommend using the DNS discovery image in combination with Kubernetes.
 
@@ -329,7 +329,7 @@ The environment variable `HIVEMQ_CONTROL_CENTER_PASSWORD` allows you to set the 
 
 Additionally, you can also configure the username, using the environment variable `HIVEMQ_CONTROL_CENTER_USER`.
 
-See [Generate a SHA256 Password](https://www.hivemq.com/docs/4/control-center/configuration.html#generate-password) to read more about how to generate the password hash.
+See [Generate a SHA256 Password](https://docs.hivemq.com/hivemq/latest/control-center/configuration.html#generate-password) to read more about how to generate the password hash.
 
 ## Adding a License
 
@@ -363,7 +363,7 @@ If you would like to use TCP as transport type instead, you can set the `HIVEMQ_
 
 ## Building a custom Docker image
 
-See [our documentation](https://www.hivemq.com/docs/hivemq/latest/user-guide/docker.html#custom) for more information on how to build custom HiveMQ images.
+See [our documentation](https://docs.hivemq.com/hivemq/latest/user-guide/docker.html#custom) for more information on how to build custom HiveMQ images.
 
 # Contributing
 If you want to contribute to HiveMQ 4 Docker Images, see the [contribution guidelines](CONTRIBUTING.md).
