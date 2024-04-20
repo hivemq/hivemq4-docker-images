@@ -13,7 +13,7 @@ RUN chmod -R 770 /opt/hivemq \
 
 
 # Actual image
-FROM eclipse-temurin:11.0.22_7-jre-jammy@sha256:7465a8ec1ce0cfbdbffa772c0a1682ffe51765e2819950a113bff52bbff254a8
+FROM eclipse-temurin:11.0.22_7-jre-jammy@sha256:1a62f8a341501a5e7847ae25f9c5d280ec6f6ac2c19f59ee8d281fc6612cd4bb
 
 ARG HIVEMQ_GID=10000
 ARG HIVEMQ_UID=10000
