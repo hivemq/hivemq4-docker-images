@@ -1,11 +1,25 @@
 ARG BASEIMAGE=hivemq/hivemq4:latest
 
 
+# Additional build image to unpack the zip files and change the permissions without retaining large layers just for those operations
+FROM alpine:3.19@sha256:c5b1261d6d3e43071626931fc004f70149baeba2c8ec672bd4f27761f8e1ad6b as unpack
+
+ARG DNS_DISCOVERY_EXTENSION_VERSION=4.2.5
+
+RUN mkdir -p /opt/hivemq/extensions
+
+# Unpack hivemq-dns-cluster-discovery-extension
+RUN apk --update add curl \
+    && curl -L https://github.com/hivemq/hivemq-dns-cluster-discovery-extension/releases/download/${DNS_DISCOVERY_EXTENSION_VERSION}/hivemq-dns-cluster-discovery-${DNS_DISCOVERY_EXTENSION_VERSION}.zip -o /tmp/hivemq-dns-cluster-discovery-extension.zip \
+    && unzip /tmp/hivemq-dns-cluster-discovery-extension.zip -d /opt/hivemq/extensions \
+    && rm /tmp/hivemq-dns-cluster-discovery-extension.zip \
+    && chmod -R 770 /opt/hivemq/extensions/hivemq-dns-cluster-discovery
+
+
+# Actual image
 FROM ${BASEIMAGE}
 
 USER 0
-
-ARG DNS_DISCOVERY_EXTENSION_VERSION=4.2.5
 
 # Use default DNS resolution timeout as default discovery interval
 ENV HIVEMQ_DNS_DISCOVERY_INTERVAL=31
@@ -19,11 +33,6 @@ ENV HIVEMQ_CLUSTER_TRANSPORT_TYPE=UDP
 
 COPY config.xml /opt/hivemq/conf/config.xml
 COPY --chmod=755 40_dns_entrypoint.sh /docker-entrypoint.d/40_dns_entrypoint.sh
-
-# Setup hivemq-dns-cluster-discovery-extension
-RUN curl -L https://github.com/hivemq/hivemq-dns-cluster-discovery-extension/releases/download/${DNS_DISCOVERY_EXTENSION_VERSION}/hivemq-dns-cluster-discovery-${DNS_DISCOVERY_EXTENSION_VERSION}.zip -o /tmp/hivemq-dns-cluster-discovery-extension.zip \
-    && unzip /tmp/hivemq-dns-cluster-discovery-extension.zip -d /opt/hivemq/extensions \
-    && rm /tmp/hivemq-dns-cluster-discovery-extension.zip \
-    && chmod -R 770 /opt/hivemq/extensions/hivemq-dns-cluster-discovery
+COPY --from=unpack /opt/hivemq/extensions/ /opt/hivemq/extensions/
 
 USER 10000
