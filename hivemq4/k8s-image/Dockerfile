@@ -12,7 +12,8 @@ RUN mkdir -p /opt/hivemq/extensions
 COPY hivemq-k8s-sync-extension-*.zip /tmp/hivemq-k8s-sync-extension.zip
 RUN unzip /tmp/hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions \
     && rm /tmp/hivemq-k8s-sync-extension.zip \
-    && chmod -R 770 /opt/hivemq/extensions/hivemq-k8s-sync-extension
+    && find /opt/hivemq/extensions/hivemq-k8s-sync-extension -type d -print0 | xargs -0 chmod 770 \
+    && find /opt/hivemq/extensions/hivemq-k8s-sync-extension -type f -print0 | xargs -0 chmod 660
 
 # Unpack hivemq-prometheus-extension
 RUN apk --update add curl \
@@ -21,7 +22,8 @@ RUN apk --update add curl \
     && rm /tmp/hivemq-prometheus-extension.zip \
     && rm /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
 COPY prometheusConfiguration.properties /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
-RUN chmod -R 770 /opt/hivemq/extensions/hivemq-prometheus-extension
+RUN find /opt/hivemq/extensions/hivemq-prometheus-extension -type d -print0 | xargs -0 chmod 770 \
+    && find /opt/hivemq/extensions/hivemq-prometheus-extension -type f -print0 | xargs -0 chmod 660
 
 
 # Actual image
@@ -32,11 +34,10 @@ USER 0
 ENV HIVEMQ_LOG_LEVEL=INFO\
     HIVEMQ_CLUSTER_TRANSPORT_TYPE=TCP
 
-COPY --chmod=770 config.xml /opt/hivemq/conf/config.xml
+COPY --chmod=660 config.xml /opt/hivemq/conf/config.xml
 COPY --chmod=755 15_k8s_entrypoint.sh /docker-entrypoint.d/15_k8s_entrypoint.sh
-COPY scripts/*.sh /opt/hivemq/bin/
+COPY --chmod=770 scripts/*.sh /opt/hivemq/bin/
 COPY --from=unpack /opt/hivemq/extensions/ /opt/hivemq/extensions/
-RUN chmod +x /opt/hivemq/bin/*.sh
 
 RUN apt-get update && apt-get install -y --no-install-recommends unzip && rm -rf /var/lib/apt/lists/*
 
