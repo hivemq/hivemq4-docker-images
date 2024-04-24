@@ -29,8 +29,6 @@ RUN find /opt/hivemq/extensions/hivemq-prometheus-extension -type d -print0 | xa
 # Actual image
 FROM ${BASEIMAGE}
 
-USER 0
-
 ENV HIVEMQ_LOG_LEVEL=INFO\
     HIVEMQ_CLUSTER_TRANSPORT_TYPE=TCP
 
@@ -39,9 +37,9 @@ COPY --chmod=755 15_k8s_entrypoint.sh /docker-entrypoint.d/15_k8s_entrypoint.sh
 COPY --chmod=770 scripts/*.sh /opt/hivemq/bin/
 COPY --from=unpack /opt/hivemq/extensions/ /opt/hivemq/extensions/
 
+USER 0
 RUN apt-get update && apt-get install -y --no-install-recommends unzip && rm -rf /var/lib/apt/lists/*
+USER 10000
 
 LABEL org.opencontainers.image.vendor=HiveMQ\
       org.opencontainers.image.source=https://github.com/hivemq/hivemq4-docker-images
-
-USER 10000
