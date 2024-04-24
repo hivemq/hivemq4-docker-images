@@ -20,8 +20,6 @@ RUN apk --update add curl \
 # Actual image
 FROM ${BASEIMAGE}
 
-USER 0
-
 # Use default DNS resolution timeout as default discovery interval
 ENV HIVEMQ_DNS_DISCOVERY_INTERVAL=31
 ENV HIVEMQ_DNS_DISCOVERY_TIMEOUT=30
@@ -35,5 +33,3 @@ ENV HIVEMQ_CLUSTER_TRANSPORT_TYPE=UDP
 COPY --chmod=660 config.xml /opt/hivemq/conf/config.xml
 COPY --chmod=755 40_dns_entrypoint.sh /docker-entrypoint.d/40_dns_entrypoint.sh
 COPY --from=unpack /opt/hivemq/extensions/ /opt/hivemq/extensions/
-
-USER 10000
