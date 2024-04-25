@@ -11,8 +11,8 @@ COPY config.xml /opt/hivemq/conf/config.xml
 RUN find /opt/hivemq -type d -print0 | xargs -0 chmod 770 \
     && find /opt/hivemq -type f -print0 | xargs -0 chmod 660 \
     && chmod 770 /opt/hivemq/**/*.sh \
-    && chmod 770 /opt/hivemq/tools/mqtt-cli*/bin/mqtt \
-    && chmod 770 /opt/hivemq/extensions/hivemq-enterprise-security-extension/helper/linux/hivemq-ese-helper
+    && chmod 770 /opt/hivemq/tools/mqtt-cli*/bin/mqtt || true \
+    && chmod 770 /opt/hivemq/extensions/hivemq-enterprise-security-extension/helper/linux/hivemq-ese-helper || true
 
 
 # Actual image
