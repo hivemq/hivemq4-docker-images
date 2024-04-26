@@ -12,8 +12,12 @@ RUN mkdir -p /opt/hivemq/extensions
 COPY hivemq-k8s-sync-extension-*.zip /tmp/hivemq-k8s-sync-extension.zip
 RUN unzip /tmp/hivemq-k8s-sync-extension.zip -d /opt/hivemq/extensions \
     && rm /tmp/hivemq-k8s-sync-extension.zip \
-    && find /opt/hivemq/extensions/hivemq-k8s-sync-extension -type d -print0 | xargs -0 chmod 770 \
-    && find /opt/hivemq/extensions/hivemq-k8s-sync-extension -type f -print0 | xargs -0 chmod 660
+    && find /opt/hivemq/extensions/hivemq-k8s-sync-extension -type d -print0 | xargs -0 chmod 750 \
+    && find /opt/hivemq/extensions/hivemq-k8s-sync-extension -type f -print0 | xargs -0 chmod 640 \
+    # directories that need write permissions
+    && chmod 770 /opt/hivemq/extensions/hivemq-k8s-sync-extension \
+    # files that need write permissions
+    && chmod 660 /opt/hivemq/extensions/hivemq-k8s-sync-extension/hivemq-extension.xml
 
 # Unpack hivemq-prometheus-extension
 RUN apk --update add curl \
@@ -22,8 +26,13 @@ RUN apk --update add curl \
     && rm /tmp/hivemq-prometheus-extension.zip \
     && rm /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
 COPY prometheusConfiguration.properties /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
-RUN find /opt/hivemq/extensions/hivemq-prometheus-extension -type d -print0 | xargs -0 chmod 770 \
-    && find /opt/hivemq/extensions/hivemq-prometheus-extension -type f -print0 | xargs -0 chmod 660
+RUN find /opt/hivemq/extensions/hivemq-prometheus-extension -type d -print0 | xargs -0 chmod 750 \
+    && find /opt/hivemq/extensions/hivemq-prometheus-extension -type f -print0 | xargs -0 chmod 640 \
+    # directories that need write permissions
+    && chmod 770 /opt/hivemq/extensions/hivemq-prometheus-extension \
+    # files that need write permissions
+    && chmod 660 /opt/hivemq/extensions/hivemq-prometheus-extension/hivemq-extension.xml \
+    && chmod 660 /opt/hivemq/extensions/hivemq-prometheus-extension/prometheusConfiguration.properties
 
 
 # Actual image
@@ -34,7 +43,7 @@ ENV HIVEMQ_LOG_LEVEL=INFO\
 
 COPY --chmod=660 config.xml /opt/hivemq/conf/config.xml
 COPY --chmod=755 15_k8s_entrypoint.sh /docker-entrypoint.d/15_k8s_entrypoint.sh
-COPY --chmod=770 scripts/*.sh /opt/hivemq/bin/
+COPY --chmod=750 scripts/*.sh /opt/hivemq/bin/
 COPY --from=unpack /opt/hivemq/extensions/ /opt/hivemq/extensions/
 
 USER 0
