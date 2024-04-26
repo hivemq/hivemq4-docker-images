@@ -56,6 +56,11 @@ ENV HIVEMQ_VERBOSE_ENTRYPOINT=false
 # Set locale
 ENV LANG=en_US.UTF-8
 
+# As the user id that runs the container (10000 by default) does not have an entry in /etc/passwd, set the home directory explicitly.
+# If not set, HOME would default to "/".
+# Java uses this value for the system property "user.home" (used for example by the mqtt-cli).
+ENV HOME=/opt/hivemq
+
 # HiveMQ entrypoint
 COPY --chmod=755 docker-entrypoint.sh /opt/docker-entrypoint.sh
 RUN mkdir -p /docker-entrypoint.d
