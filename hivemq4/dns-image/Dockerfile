@@ -13,8 +13,13 @@ RUN apk --update add curl \
     && curl -L https://github.com/hivemq/hivemq-dns-cluster-discovery-extension/releases/download/${DNS_DISCOVERY_EXTENSION_VERSION}/hivemq-dns-cluster-discovery-${DNS_DISCOVERY_EXTENSION_VERSION}.zip -o /tmp/hivemq-dns-cluster-discovery-extension.zip \
     && unzip /tmp/hivemq-dns-cluster-discovery-extension.zip -d /opt/hivemq/extensions \
     && rm /tmp/hivemq-dns-cluster-discovery-extension.zip \
-    && find /opt/hivemq/extensions/hivemq-dns-cluster-discovery -type d -print0 | xargs -0 chmod 770 \
-    && find /opt/hivemq/extensions/hivemq-dns-cluster-discovery -type f -print0 | xargs -0 chmod 660
+    && find /opt/hivemq/extensions/hivemq-dns-cluster-discovery -type d -print0 | xargs -0 chmod 750 \
+    && find /opt/hivemq/extensions/hivemq-dns-cluster-discovery -type f -print0 | xargs -0 chmod 640 \
+    # directories that need write permissions
+    && chmod 770 /opt/hivemq/extensions/hivemq-dns-cluster-discovery \
+    # files that need write permissions
+    && chmod 660 /opt/hivemq/extensions/hivemq-dns-cluster-discovery/dnsdiscovery.properties \
+    && chmod 660 /opt/hivemq/extensions/hivemq-dns-cluster-discovery/hivemq-extension.xml
 
 
 # Actual image
