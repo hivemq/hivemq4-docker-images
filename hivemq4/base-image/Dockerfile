@@ -1,5 +1,5 @@
 # Additional build image to unpack the zip file and change the permissions without retaining large layers just for those operations
-FROM busybox:1.36.1@sha256:5eef5ed34e1e1ff0a4ae850395cbf665c4de6b4b83a32a0bc7bcb998e24e7bbb AS unpack
+FROM alpine:3.20@sha256:77726ef6b57ddf65bb551896826ec38bc3e53f75cdde31354fbffb4f25238ebd AS unpack
 
 ARG HIVEMQ_VERSION
 
@@ -37,12 +37,13 @@ RUN set -x \
     && apt-get update && apt-get install -y --no-install-recommends unzip && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /docker-entrypoint.d
 
-# HiveMQ setup
-COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
-COPY entrypoints.d/* /docker-entrypoint.d/
+# HiveMQ entrypoint
+COPY --chmod=755 docker-entrypoint.sh /opt/docker-entrypoint.sh
+COPY --chmod=644 entrypoints.d/* /docker-entrypoint.d/
+
+# HiveMQ
 COPY --from=unpack /opt/hivemq /opt/hivemq
-RUN chmod +x /opt/docker-entrypoint.sh \
-    && groupadd --gid ${HIVEMQ_GID} hivemq \
+RUN groupadd --gid ${HIVEMQ_GID} hivemq \
     && useradd -g hivemq -d /opt/hivemq -s /bin/bash --uid ${HIVEMQ_UID} hivemq \
     && chmod 770 /opt/hivemq
 
