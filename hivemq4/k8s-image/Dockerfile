@@ -2,7 +2,7 @@ ARG BASEIMAGE=hivemq/hivemq4:dns-latest
 
 
 # Additional build image to unpack the zip files and change the permissions without retaining large layers just for those operations
-FROM alpine:3.20@sha256:77726ef6b57ddf65bb551896826ec38bc3e53f75cdde31354fbffb4f25238ebd AS unpack
+FROM alpine:3.20@sha256:b89d9c93e9ed3597455c90a0b88a8bbb5cb7188438f70953fede212a0c4394e0 AS unpack
 
 ARG PROMETHEUS_EXTENSION_VERSION=4.0.10
 
