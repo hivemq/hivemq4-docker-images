@@ -15,7 +15,7 @@
     // disable updates of the HiveMQ Platform Docker images, so the release job picks up the locally built images
     // using the `latest` tag (without digest pinning)
     {
-      matchPackagePrefixes: [
+      matchPackageNames: [
         "hivemq/hivemq4",
       ],
       enabled: false,
