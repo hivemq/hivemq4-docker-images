@@ -2,7 +2,7 @@ ARG BASEIMAGE=hivemq/hivemq4:latest
 
 
 # Additional build image to unpack the zip files and change the permissions without retaining large layers just for those operations
-FROM alpine:3.20@sha256:0a4eaa0eecf5f8c050e5bba433f58c052be7587ee8af3e8b3910ef9ab5fbe9f5 AS unpack
+FROM alpine:3.20@sha256:beefdbd8a1da6d2915566fde36db9db0b524eb737fc57cd1367effd16dc0d06d AS unpack
 
 ARG DNS_DISCOVERY_EXTENSION_VERSION=4.3.0
 
