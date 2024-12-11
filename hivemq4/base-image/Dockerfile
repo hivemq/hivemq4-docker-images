@@ -23,6 +23,7 @@ RUN find /opt/hivemq -type d -print0 | xargs -0 chmod 750 \
     && chmod 770 /opt/hivemq/extensions/* \
     && chmod 770 /opt/hivemq/extensions/*/conf || true \
     && chmod 770 /opt/hivemq/extensions/hivemq-amazon-kinesis-extension/customizations || true \
+    && chmod 770 /opt/hivemq/extensions/hivemq-enterprise-security-extension/customizations || true \
     && chmod 770 /opt/hivemq/extensions/hivemq-enterprise-security-extension/drivers || true \
     && chmod 770 /opt/hivemq/extensions/hivemq-enterprise-security-extension/drivers/jdbc || true \
     && chmod 770 /opt/hivemq/extensions/hivemq-google-cloud-pubsub-extension/customizations || true \
