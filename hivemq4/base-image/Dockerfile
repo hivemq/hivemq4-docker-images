@@ -40,7 +40,7 @@ RUN find /opt/hivemq -type d -print0 | xargs -0 chmod 750 \
 
 
 # Actual image
-FROM eclipse-temurin:21.0.5_11-jre-jammy@sha256:ebeb51a2a147be42b7d42342fecbeb2d9cb764f7742054024ac9a17bc1c8a21b
+FROM eclipse-temurin:21.0.6_7-jre-jammy@sha256:d429aaa166a03a711f8af7566bc049904ef493d84e190d1dc6cef9bf19b906b9
 
 # Additional JVM options, may be overwritten by user
 ENV JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseNUMA"
