@@ -1,3 +1,5 @@
+> [!IMPORTANT]
+> We are now using the [Gradle OCI Plugin](https://github.com/SgtSilvio/gradle-oci) to buid all of our OCI images.
 
 # Table of Contents
    
